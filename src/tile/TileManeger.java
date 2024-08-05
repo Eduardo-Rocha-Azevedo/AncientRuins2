@@ -200,7 +200,8 @@ public class TileManeger {
         setup(172, "172", false);
         setup(173, "173", false);  
         setup(174, "174", false);
-        ///setup(175, "175", false);   
+        setup(175, "175", true);  
+        setup(176, "176", true); 
     }
 
 
@@ -247,33 +248,34 @@ public class TileManeger {
         }
     }
 
-    public void draw(Graphics2D g2){
-       int worldCol = 0;
-       int worldRow = 0;
-      
-       
-       while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow){
+    public void draw(Graphics2D g2) {
+        int worldCol = 0;
+        int worldRow = 0;
 
-            int tileNum = mapTileNum[worldCol][worldRow]; 
-            int worldX = worldCol * gp.tileSize;
-            int worldY = worldRow * gp.tileSize;
-            int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-            if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-               worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-               worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-               worldY - gp.tileSize < gp.player.worldY + gp.player.screenY
-            ){
-             g2.drawImage(tile[tileNum].image, screenX, screenY, null);
+            // Verificação nula adicionada
+            if (tile[tileNum] != null && tile[tileNum].image != null) {
+                int worldX = worldCol * gp.tileSize;
+                int worldY = worldRow * gp.tileSize;
+                int screenX = worldX - gp.player.worldX + gp.player.screenX;
+                int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
+                if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                    worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                    worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, null);
+                }
             }
             worldCol++;
-        
-            if(worldCol == gp.maxWorldCol){
+
+            if (worldCol == gp.maxWorldCol) {
                 worldCol = 0;
                 worldRow++;
             }
-       }
+        }
     }
+
 }

@@ -59,7 +59,7 @@ public class Player extends Entity{
 		left1 = setup("boy_left_1");
 		left2 = setup("boy_left_2");
 		right1 = setup("boy_right_1");
-		right2 = setup("boy_right_1");
+		right2 = setup("boy_right_2");
 	}
 	
 	public BufferedImage setup(String imageName){
