@@ -2,6 +2,8 @@ package principal;
 
 import javax.swing.JPanel;
 
+import entity.Entity;
+import entity.NPC_OldMan;
 import entity.Player;
 import objects.SuperObject;
 import tile.TileManeger;
@@ -10,7 +12,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints.Key;
+
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -34,29 +36,38 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     //SYSTEM
     TileManeger tileM = new TileManeger(this); 
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     Thread gameThread; 
+
     //ENTITY AND OBJECTS
     public Player player = new Player(this,keyH);
+    public Entity npc[] = new Entity[10];
     public SuperObject obj[] = new SuperObject[10];
+
+    // Game State
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     //constructor======================
     public GamePanel() {
-     this.setPreferredSize(new Dimension(screenWith, screenHeight));
-     this.setBackground(new Color(0,0,0));
-     this.setDoubleBuffered(true);
-     this.addKeyListener(keyH);
-     this.setFocusable(true);
+        this.setPreferredSize(new Dimension(screenWith, screenHeight));
+        this.setBackground(new Color(0, 0, 0));
+        this.setDoubleBuffered(true);
+        this.addKeyListener(keyH);
+        this.setFocusable(true);
     }
 
     public void setupGame(){
         aSetter.setObject();
+        aSetter.setNPC();
         playMusic(0);
+        gameState = playState;
     }
 
     public void startGameThread(){
@@ -97,8 +108,19 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-      
-    	player.update();
+        if(gameState == playState){
+            //Player
+            player.update();
+            //NPC
+            for(int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
+                    npc[i].update();
+                }
+            }
+        }
+    	else if(gameState == pauseState){
+            //nothing yet
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -121,6 +143,13 @@ public class GamePanel extends JPanel implements Runnable{
                 obj[i].draw(g2, this);
             }
         }
+        //NPC
+        for(int i = 0; i < npc.length; i++){
+            if(npc[i] != null){
+                npc[i].draw(g2);
+            }
+        }
+
         //PLAYER
         player.draw(g2);
 
