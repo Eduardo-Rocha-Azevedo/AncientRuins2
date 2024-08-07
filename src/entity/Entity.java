@@ -27,10 +27,28 @@ public class Entity {
 	public boolean collisioOn = false;
 	public int defaultSpeed;
 
+	// DIALOGUE
+	public String dialogue[] = new String[20];
+	public int dialogueIndex = 0;
+
 	public Entity(GamePanel gp) {
 		this.gp = gp;
 	}
-
+	public void setDialogue(){}
+	public void speak(){
+		if(dialogue[dialogueIndex] == null){
+            dialogueIndex = 0;
+        }
+        gp.ui.currentDialog = dialogue[dialogueIndex];
+        dialogueIndex++;
+        switch(direction){
+            case "up":direction = "down";break;
+            case "down":direction = "up";break;
+            case "left":direction = "right";break;
+            case "right":direction = "left";break;
+        }
+        
+	}
 	public void setAction(){}
 	public void update(){
 		setAction();

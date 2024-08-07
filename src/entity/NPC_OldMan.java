@@ -18,7 +18,9 @@ public class NPC_OldMan extends Entity{
             solidArea.height = 30;
             solidAreaDefultX = solidArea.x;
             solidAreaDefultY = solidArea.y;
+            dialogueIndex = 0;
             getImage();
+            setDialogue();
         }
         
         public void getImage(){
@@ -30,8 +32,17 @@ public class NPC_OldMan extends Entity{
             left2 = setup("/npc/oldman_left_2",gp.tileSize,gp.tileSize);
             right1 = setup("/npc/oldman_right_1",gp.tileSize,gp.tileSize);
             right2 = setup("/npc/oldman_right_2",gp.tileSize,gp.tileSize);
-    }        
-
+    }      
+    
+    public void setDialogue(){
+        dialogue[0] = "Hell, lad";
+        dialogue[1] = "I'm the dialog test NPC \nlorem ipsum dolor sit amet";
+        dialogue[2] = "I'm the dialog test NPC";
+        dialogue[3] = "I'm the dialog test NPC";
+    }
+    public void speak(){
+        super.speak();
+    }
     public void setAction(){
         actionLockCounter++;
         if(actionLockCounter == 120){
@@ -52,4 +63,5 @@ public class NPC_OldMan extends Entity{
             actionLockCounter = 0;
         }
     }
+
 }

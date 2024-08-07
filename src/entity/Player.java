@@ -61,21 +61,21 @@ public class Player extends Entity{
 	
 	
 	public void update() {
-		if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true){
+		if(keyH.up == true || keyH.down == true || keyH.left == true || keyH.right == true){
 				
-			if(keyH.upPressed == true) {
+			if(keyH.up == true) {
 				direction = "up";
 			
 			}
-			else if(keyH.downPressed == true){
+			else if(keyH.down == true){
 				direction = "down";
 				
 			}
-			else if(keyH.leftPressed == true){
+			else if(keyH.left == true){
 				direction = "left";
 			
 			}
-			else if(keyH.rightPressed == true){
+			else if(keyH.right == true){
 				direction = "right";
 				
 			}
@@ -117,8 +117,12 @@ public class Player extends Entity{
 
 	public void interactNPC(int i){
 		if(i != 999){
-			gp.npc[i].setAction();
+			if(gp.keyH.enterPressed == true){
+				gp.gameState = gp.dialogueState;
+				gp.npc[i].speak();
+			}
 		}
+		gp.keyH.enterPressed = false;
 	}
 
 	public void pickUpObject(int i){

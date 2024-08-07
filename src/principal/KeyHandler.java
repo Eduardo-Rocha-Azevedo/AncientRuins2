@@ -5,13 +5,16 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean upPressed,downPressed, leftPressed, rightPressed;
+    public boolean up,down, left, right, enterPressed;
     boolean checkDrawTime = false;
-    GamePanel gp;
+    public GamePanel gp;
+
+    //CONSTRUCTOR =======================
     public KeyHandler(GamePanel gp){
-        gp.addKeyListener(this);
+        this.gp = gp; 
     }
-    
+
+    //METHODS ===============================
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
@@ -20,44 +23,68 @@ public class KeyHandler implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-        if(code == KeyEvent.VK_W) {upPressed = true;}
-        if(code == KeyEvent.VK_S) {downPressed = true;}         
-        if(code == KeyEvent.VK_A) {leftPressed = true;}
-        if(code == KeyEvent.VK_D) {rightPressed = true;}
-        if(code == KeyEvent.VK_P) {
-            if(gp.gameState == gp.playState){
-                gp.gameState = gp.pauseState;
+
+        //PLAY STATE
+        if(gp.gameState == gp.playState){
+
+            if(code == KeyEvent.VK_UP || code == KeyEvent.VK_W) {
+            up = true;
             }
-            else if(gp.gameState == gp.pauseState){
-                gp.gameState = gp.playState;
+            if(code == KeyEvent.VK_DOWN || code == KeyEvent.VK_S) {
+                down = true;
+            }
+            if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_A) {
+            left = true;
+            }
+            if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_D) {
+                right = true;
+            }
+            if(code == KeyEvent.VK_P){
+                gp.gameState = gp.pauseState;     
+            }
+            if(code == KeyEvent.VK_ENTER){
+                enterPressed = true;
+            }
+            
+            //debug
+		    if(code == KeyEvent.VK_T) {
+                if(checkDrawTime == false){
+                    checkDrawTime = true;
+                }
+                else if(checkDrawTime == true){
+                checkDrawTime = false;
+                }
+            } 
+        } 
+
+        //PAUSE STATE
+        else if(gp.gameState == gp.pauseState){
+            if(code == KeyEvent.VK_P){
+                gp.gameState = gp.playState; 
             }
         }
-        /* 
-		if(code == KeyEvent.VK_T) {
-            if(checkDrawTime == false){
-                checkDrawTime = true;
+        //DIALOG STATE
+         else if(gp.gameState == gp.dialogueState){
+                if(code == KeyEvent.VK_ENTER){
+                    gp.gameState = gp.playState;
+                }
             }
-            else if(checkDrawTime == true){
-                checkDrawTime = false;
-            }
-        }*/
-	
-    }
+    	} 
 
 	@Override
 	public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
         if(code == KeyEvent.VK_UP || code == KeyEvent.VK_W) {
-           upPressed = false;
+           up = false;
         }
         if(code == KeyEvent.VK_DOWN || code == KeyEvent.VK_S) {
-            downPressed = false;
+            down = false;
         }
         if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_A) {
-            leftPressed = false;
+            left = false;
         }
         if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_D) {
-            rightPressed = false;
+            right = false;
         }
 		
 	}
