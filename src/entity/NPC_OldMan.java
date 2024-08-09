@@ -35,7 +35,7 @@ public class NPC_OldMan extends Entity{
     }      
     
     public void setDialogue(){
-        dialogue[0] = "Hell, lad";
+        dialogue[0] = "Hello, lad";
         dialogue[1] = "I'm the dialog test NPC \nlorem ipsum dolor sit amet";
         dialogue[2] = "I'm the dialog test NPC";
         dialogue[3] = "I'm the dialog test NPC";

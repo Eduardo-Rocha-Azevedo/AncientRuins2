@@ -3,17 +3,20 @@ package principal;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 
 public class UI {
     GamePanel gp;
     Graphics2D g2;
-    Font arial_40, arial_80B;
+  
     BufferedImage keyImage;
     public boolean gameFinished = false;
-
+    Font maruMonica;
     //mensage info
     public boolean messageOn = false;
     public String message = "";
@@ -22,9 +25,16 @@ public class UI {
   
     public UI(GamePanel gp){
         this.gp = gp;
+        InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
+        try{
+            maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
 
-        arial_40 = new Font("Arial", Font.PLAIN, 40);
-        arial_80B = new Font("Arial", Font.BOLD, 80);
+        }catch(FontFormatException e){
+            e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
        
     }
 
@@ -36,7 +46,8 @@ public class UI {
     public void draw(Graphics2D g2){
         this.g2 = g2;
         
-        g2.setFont(arial_40);
+        g2.setFont(maruMonica);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
 
         // PLAY STATE
@@ -56,7 +67,7 @@ public class UI {
     }
     
     public void drawPauseScreen(){
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80f));
         String text = "PAUSED";
         int x = getXForCenteredText(text);
         int y = gp.screenHeight/2;
@@ -71,7 +82,7 @@ public class UI {
 
         drawSubWindow(x, y, width, height);
 
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20f));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32f));
         x += gp.tileSize;
         y += gp.tileSize;
         
