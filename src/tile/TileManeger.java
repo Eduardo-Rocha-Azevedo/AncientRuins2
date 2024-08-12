@@ -17,14 +17,13 @@ public class TileManeger {
 
     public TileManeger(GamePanel gp){
         this.gp = gp; 
-        tile = new Tile[180];
+        tile = new Tile[200];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         loadMap();
     }
 
-    public void getTileImage(){
-        
+    public void getTileImage(){    
         setup(0, "000", true);
         setup(1, "001", false);
         setup(2, "002", false);
@@ -205,8 +204,22 @@ public class TileManeger {
         setup(177, "177",false);
         setup(178, "178",false);
         setup(179, "179",false);
+        setup(180,"180",true);
+        setup(181,"181",true);
+        setup(182,"182",false);
+        setup(183,"183",true);
+        setup(184,"184",true);
+        setup(185,"185",true);
+        setup(186,"186",false);
+        setup(187,"187",false);
+        setup(188,"188",false);
+        setup(189,"189",true);
+        setup(190,"190",true);
+        setup(191,"191",true);
+        setup(192,"192",true);
+        setup(193,"193",false);
+        setup(194,"194",true);
     }
-
 
     public void setup(int index, String imageName, boolean collision ){
         UtiliyTool uTool = new UtiliyTool();
