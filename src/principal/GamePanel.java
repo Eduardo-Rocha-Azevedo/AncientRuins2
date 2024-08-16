@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 
 import entity.Entity;
 import entity.Player;
-import objects.SuperObject;
 import tile.TileManeger;
 
 import java.awt.Color;
@@ -19,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int scale = 3;
 
     public final int tileSize = originalTilesSize * scale;
-    public final int maxScreenCols = 16;
+    public final int maxScreenCols = 20;
     public final int maxScreenRows = 12;
     public final int screenWith = tileSize * maxScreenCols; // 768px
     public final int screenHeight = tileSize * maxScreenRows; // 576px
@@ -40,11 +39,12 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     Thread gameThread;
+    public EventHandler eventH = new EventHandler(this);
 
     // ENTITY AND OBJECTS
     public Player player = new Player(this, keyH);
     public Entity npc[] = new Entity[10];
-    public SuperObject obj[] = new SuperObject[10];
+    public Entity obj[] = new Entity[10];
 
     // Game State
     public int gameState;
@@ -140,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
             // OBJECTS
             for (int i = 0; i < obj.length; i++) {
                 if (obj[i] != null) {
-                    obj[i].draw(g2, this);
+                    obj[i].draw(g2);
                 }
             }
             // NPC
@@ -149,14 +149,8 @@ public class GamePanel extends JPanel implements Runnable {
                     npc[i].draw(g2);
                 }
             }
-
-            
-
             // UI
             ui.draw(g2);
-            
-            // debug
-
            
         }
          g2.dispose();

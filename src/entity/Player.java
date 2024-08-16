@@ -43,6 +43,10 @@ public class Player extends Entity{
 		defaultSpeed = 4;
 		speed = defaultSpeed;
 		direction = "down";
+		maxLife = 6;
+		life = maxLife;
+		maxCosmo = 4;
+		cosmo = maxCosmo;
 
 		getImage();
 	}
@@ -92,6 +96,8 @@ public class Player extends Entity{
 			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
 			interactNPC(npcIndex);
 
+			gp.eventH.checkEvent();
+			gp.keyH.enterPressed = false;
 			//IF COLLISION IS FALSE, PLAYER CAN MOVE
 			if(collisioOn == false){
 				switch(direction){
@@ -122,8 +128,8 @@ public class Player extends Entity{
 				gp.npc[i].speak();
 			}
 		}
-		gp.keyH.enterPressed = false;
-	}
+		
+	}	
 
 	public void pickUpObject(int i){
 		if(i != 999){

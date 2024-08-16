@@ -5,16 +5,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
-import java.text.DecimalFormat;
+
+import entity.Entity;
+import objects.OBJ_CosmoCrystal;
+import objects.OBJ_Heart;
+
 
 public class UI {
     GamePanel gp;
     Graphics2D g2;
   
-    BufferedImage keyImage;
+    BufferedImage keyImage, heart_full, heart_half, heart_blank, cosmo_full, cosmo_blank;
     public boolean gameFinished = false;
     Font maruMonica;
     //mensage info
@@ -38,7 +41,14 @@ public class UI {
         }catch(Exception e){
             e.printStackTrace();
         }
-        
+
+        Entity heart = new OBJ_Heart(gp);
+        heart_full = heart.image;
+        heart_half = heart.image2;
+        heart_blank = heart.image3;
+        Entity cosmo = new OBJ_CosmoCrystal(gp);
+        cosmo_full = cosmo.image;
+        cosmo_blank = cosmo.image2;
        
     }
 
@@ -59,14 +69,16 @@ public class UI {
         }
         // PLAY STATE
         if (gp.gameState == gp.playState) {
-            // Desenhe os elementos do estado de jogo aqui
+            drawPlayerLife();
         }
         // PAUSE STATE
         if (gp.gameState == gp.pauseState) {
+            drawPlayerLife();
             drawPauseScreen();
         }
         // DIALOGUE STATE
         if (gp.gameState == gp.dialogueState) {
+            drawPlayerLife();
             drawDialogScreen();
         }
     }
@@ -155,6 +167,60 @@ public class UI {
       
 	}
     public void drawHistoryScreen() {}
+    public void drawPlayerLife(){
+        int x = gp.tileSize/2;
+        int y = gp.tileSize/2;
+        int iconSize = 32;
+        int cosmoStartX = (gp.tileSize/2)-5;
+        int cosmoStartY = 0;
+        int i = 0;
+
+        //draw max hearts
+        while(i < gp.player.maxLife/2){
+            g2.drawImage(heart_blank, x, y,iconSize,iconSize, null);
+            i++;
+            x += iconSize;
+            cosmoStartY = y + iconSize;
+            if(i % 8 == 0){
+                x = gp.tileSize/2;
+                y += iconSize;
+            }
+        }
+        //reset
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        i = 0;
+
+        //draw current life
+        while(i < gp.player.life){
+            g2.drawImage(heart_half, x, y,iconSize,iconSize, null);
+            i++;
+            if(i < gp.player.life){
+                g2.drawImage(heart_full, x, y,iconSize,iconSize,null);
+            }
+            i++;
+            x += iconSize;
+        }
+        //draw max cosmo crystal
+        x = (gp.tileSize/2) -5;
+        y = (int)(gp.tileSize*1.5);
+        i = 0;
+        while(i < gp.player.maxCosmo){
+            g2.drawImage(cosmo_blank, x, y,iconSize,iconSize, null);
+            i++;
+            x += 25; 
+        }
+
+        //draw cosmo
+        x = (gp.tileSize/2) -5;
+        y = (int)(gp.tileSize*1.5);
+        i = 0;
+        while(i < gp.player.cosmo){
+            g2.drawImage(cosmo_full, x, y,iconSize,iconSize, null);
+            i++;
+            x += 25; 
+        }
+    }
     public void drawPauseScreen(){
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80f));
         String text = "PAUSED";

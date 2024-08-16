@@ -11,17 +11,21 @@ import principal.GamePanel;
 import principal.UtiliyTool;
 
 public class Entity {
-	GamePanel gp;
+	protected GamePanel gp;
 	public int worldX, worldY;
 	public int speed;
 
+	// SPRITE IMAGE
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+	public BufferedImage image, image2, image3;
 	public String direction;
 
+	// SPRITE CONFIG	
 	public int spriteCouter = 0;
 	public int spriteNum = 1;
 	public int actionLockCounter = 0;
 
+	// COLLISION
 	public Rectangle solidArea = new Rectangle();
 	public int solidAreaDefultX, solidAreaDefultY;
 	public boolean collisioOn = false;
@@ -30,6 +34,32 @@ public class Entity {
 	// DIALOGUE
 	public String dialogue[] = new String[20];
 	public int dialogueIndex = 0;
+
+	//Character Status
+	public String name;
+	public int value;
+	public int maxLife;
+	public int life;
+	public int cosmo;
+	public int maxCosmo;
+
+
+	//Type
+	public int type; 
+	public final int type_player = 0;
+	public final int type_npc = 1;
+	public final int type_monster = 2;
+	public final int type_sword_normal = 3;
+	public final int type_axe = 4;
+	public final int type_shield = 5;
+	public final int type_consumable = 6;
+	public final int type_pickOnly = 7;
+	public final int type_obstacle = 8;
+	public final int type_light = 9;
+	public final int type_sword_iron = 10;
+	public final int type_pickaxe = 11;
+	
+
 
 	public Entity(GamePanel gp) {
 		this.gp = gp;
