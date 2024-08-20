@@ -8,10 +8,10 @@ import principal.GamePanel;
 
 public class OBJ_Key extends Entity {
 
-    GamePanel gp;
+	GamePanel gp;
 
-    public OBJ_Key(GamePanel gp){
-        super(gp);
+	public OBJ_Key(GamePanel gp) {
+		super(gp);
 
-    }
+	}
 }

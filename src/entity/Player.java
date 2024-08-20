@@ -1,11 +1,9 @@
 package entity;
-
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import principal.GamePanel;
 import principal.KeyHandler;
-
 public class Player extends Entity{
 	
 	KeyHandler keyH;
@@ -13,14 +11,11 @@ public class Player extends Entity{
 	public final int screenX;
 	public final int screenY;
 	
-
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp);
 		this.keyH = keyH;
-
 		screenX = gp.screenWith/2 - (gp.tileSize/2);
 		screenY = gp.screenHeight/2 - (gp.tileSize/2);
-
 		solidArea = new Rectangle();
 		solidArea.x = 8;
 		solidArea.y = 16;
@@ -29,7 +24,6 @@ public class Player extends Entity{
 		solidArea.width = 32;
 		solidArea.height = 32;
 		
-
 		//attackArea.width = 48;
         //attackArea.height = 48;
 		setDefultValues();
@@ -50,7 +44,6 @@ public class Player extends Entity{
 
 		getImage();
 	}
-
 	public void getImage(){
 	
 		up1 = setup("/player/boy_up_1",gp.tileSize,gp.tileSize);
@@ -83,15 +76,12 @@ public class Player extends Entity{
 				direction = "right";
 				
 			}
-
 			//CHECK TILE COLLISION
 			collisioOn = false;
 			gp.cChecker.checkTile(this);
-
 			//CHECK OBJECT COLLISION
 			int objIndex = gp.cChecker.checkObject(this, true);
 			pickUpObject(objIndex);
-
 			//CHECK NPC COLLISION
 			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
 			interactNPC(npcIndex);
@@ -117,10 +107,11 @@ public class Player extends Entity{
 					spriteNum = 1;
 				}
 				spriteCouter = 0;
+		
 			}
 		}
-	}
 
+	}	
 	public void interactNPC(int i){
 		if(i != 999){
 			if(gp.keyH.enterPressed == true){
@@ -128,7 +119,7 @@ public class Player extends Entity{
 				gp.npc[i].speak();
 			}
 		}
-		
+
 	}	
 
 	public void pickUpObject(int i){
@@ -136,27 +127,20 @@ public class Player extends Entity{
 		
 		}
 	}
-
 	public void draw(Graphics g2) {
-
         //g2.setColor(Color.WHITE);
         //g2.fillRect(x, y, gp.tileSize, gp.tileSize);
-
 		BufferedImage image = null;
 		switch(direction){
-
 			case "up":
 				if(spriteNum == 1){image = up1;}
 				if(spriteNum == 2){image = up2;}break;
-
 			case "down":
 				if(spriteNum == 1){image = down1;}
 				if(spriteNum == 2){image = down2;}break;
-
 			case "left": 
 				if(spriteNum == 1){image = left1;}
 				if(spriteNum == 2){image = left2;}break;
-
 			case "right":
 				if(spriteNum == 1){image = right1;}
 				if(spriteNum == 2){image = right2;}break;	
@@ -164,14 +148,3 @@ public class Player extends Entity{
 		g2.drawImage(image, screenX, screenY, null);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

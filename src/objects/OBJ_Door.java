@@ -5,10 +5,10 @@ import principal.GamePanel;
 
 public class OBJ_Door extends Entity {
 
-    GamePanel gp;
+	GamePanel gp;
 
-    public OBJ_Door(GamePanel gp){
-        super(gp);
-        
-    }
+	public OBJ_Door(GamePanel gp) {
+		super(gp);
+
+	}
 }

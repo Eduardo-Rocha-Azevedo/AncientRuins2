@@ -1,10 +1,9 @@
-package entity;
 
+package entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import principal.GamePanel;
@@ -29,9 +28,6 @@ public class Entity {
 	public Rectangle solidArea = new Rectangle();
 	public int solidAreaDefultX, solidAreaDefultY;
 	public boolean collisioOn = false;
-	public int defaultSpeed;
-
-	// DIALOGUE
 	public String dialogue[] = new String[20];
 	public int dialogueIndex = 0;
 
@@ -42,6 +38,7 @@ public class Entity {
 	public int life;
 	public int cosmo;
 	public int maxCosmo;
+	public int defaultSpeed;
 
 
 	//Type
@@ -58,7 +55,7 @@ public class Entity {
 	public final int type_light = 9;
 	public final int type_sword_iron = 10;
 	public final int type_pickaxe = 11;
-	
+
 
 
 	public Entity(GamePanel gp) {
@@ -86,7 +83,6 @@ public class Entity {
 		gp.cChecker.checkTile(this);
 		gp.cChecker.checkObject(this,false);
 		gp.cChecker.checkPlayer(this);
-
 		//IF COLLISION IS FALSE, PLAYER CAN MOVE
 		if(collisioOn == false){
 			switch(direction){
@@ -108,11 +104,9 @@ public class Entity {
 			spriteCouter = 0;
 		}
 	}
-
 	public void draw(Graphics2D g2){
 		int screenX = worldX - gp.player.worldX + gp.player.screenX;
         int screenY = worldY - gp.player.worldY + gp.player.screenY;
-
         if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
            worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
            worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
@@ -120,33 +114,26 @@ public class Entity {
         ){
 			BufferedImage image = null;
 			switch(direction){
-
 				case "up":
 					if(spriteNum == 1){image = up1;}
 					if(spriteNum == 2){image = up2;}break;
-
 				case "down":
 					if(spriteNum == 1){image = down1;}
 					if(spriteNum == 2){image = down2;}break;
-
 				case "left": 
 					if(spriteNum == 1){image = left1;}
 					if(spriteNum == 2){image = left2;}break;
-
 				case "right":
 					if(spriteNum == 1){image = right1;}
 					if(spriteNum == 2){image = right2;}break;	
 			}
 			g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
 		}
 	}
 	// carrega a img
 	public BufferedImage setup(String imagePath, int width, int height) {
-
 		UtiliyTool uTool = new UtiliyTool();
 		BufferedImage image = null;
-
 		try {
 			image = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
 			image = uTool.scaleImage(image, width, height); // it scales to tilesize , will fix for player attack(16px x
@@ -156,5 +143,4 @@ public class Entity {
 		}
 		return image;
 	}
-
 }

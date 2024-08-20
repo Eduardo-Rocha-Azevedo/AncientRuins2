@@ -8,10 +8,10 @@ import principal.GamePanel;
 
 public class OBJ_Chest extends Entity {
 
-    GamePanel gp;
+	GamePanel gp;
 
-    public OBJ_Chest(GamePanel gp){
-       super(gp);
+	public OBJ_Chest(GamePanel gp) {
+		super(gp);
 
-    }
+	}
 }
