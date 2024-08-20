@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements Runnable {
 			if (delta >= 1) {
 				update();
 				repaint();
-				System.out.println("atualizando e renderizando");
+				//System.out.println("atualizando e renderizando");
 				delta--;
 				drawCount++;
 			}
@@ -127,7 +127,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("renderizando");
+		//System.out.println("renderizando");
 		Graphics2D g2 = (Graphics2D) g;
 
 		// TITLE MENU

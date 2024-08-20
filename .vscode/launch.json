@@ -1,6 +1,13 @@
 {
     "configurations": [
         {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "principal.Main",
+            "projectName": "Adventure-Game-main"
+        },
+        {
             "type": "node-terminal",
             "name": "JavaScript Debug Terminal",
             "request": "launch",
