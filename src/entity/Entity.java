@@ -17,7 +17,7 @@ public class Entity {
 	// SPRITE IMAGE
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 	public BufferedImage image, image2, image3;
-	public String direction;
+	public String direction = "down";
 
 	// SPRITE CONFIG	
 	public int spriteCouter = 0;

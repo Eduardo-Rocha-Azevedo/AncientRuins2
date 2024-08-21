@@ -9,6 +9,6 @@ public class OBJ_Door extends Entity {
 
 	public OBJ_Door(GamePanel gp) {
 		super(gp);
-
+		down1 = setup("/objects/door.png",gp.tileSize,gp.tileSize);
 	}
 }

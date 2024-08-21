@@ -1,8 +1,5 @@
 package objects;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
 import entity.Entity;
 import principal.GamePanel;
 
@@ -12,6 +9,14 @@ public class OBJ_Chest extends Entity {
 
 	public OBJ_Chest(GamePanel gp) {
 		super(gp);
+		down1 = setup("/objects/chestww",gp.tileSize,gp.tileSize);
+		collisioOn = true;
 
+		solidArea.x = 0;
+		solidArea.y = 16;
+		solidArea.width = 48;
+		solidArea.height = 32;
+		solidAreaDefultX = solidArea.x;
+		solidAreaDefultY = solidArea.y;
 	}
 }
