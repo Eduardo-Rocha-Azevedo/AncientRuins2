@@ -1,4 +1,7 @@
 package entity;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -10,6 +13,7 @@ public class Player extends Entity{
 	
 	public final int screenX;
 	public final int screenY;
+	int standCounter = 0;
 	
 	public Player(GamePanel gp, KeyHandler keyH) {
 		super(gp);
@@ -58,7 +62,7 @@ public class Player extends Entity{
 	
 	
 	public void update() {
-		if(keyH.up == true || keyH.down == true || keyH.left == true || keyH.right == true){
+		if(keyH.up == true || keyH.down == true || keyH.left == true || keyH.right == true || keyH.enterPressed == true){
 				
 			if(keyH.up == true) {
 				direction = "up";
@@ -85,11 +89,14 @@ public class Player extends Entity{
 			//CHECK NPC COLLISION
 			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
 			interactNPC(npcIndex);
+			//CHECK MONSTER COLLISION
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			contactMonster(monsterIndex);
 
 			gp.eventH.checkEvent();
-			gp.keyH.enterPressed = false;
+
 			//IF COLLISION IS FALSE, PLAYER CAN MOVE
-			if(collisioOn == false){
+			if(collisioOn == false && keyH.enterPressed == false){
 				switch(direction){
 					case "up":worldY -= speed;break;
 					case "down":worldY += speed;break;
@@ -97,7 +104,7 @@ public class Player extends Entity{
 					case "right":worldX += speed;break;	
 				}
 			}
-		
+			gp.keyH.enterPressed = false;
 			spriteCouter++;
 			if(spriteCouter > 12){
 				if(spriteNum == 1){
@@ -110,6 +117,14 @@ public class Player extends Entity{
 		
 			}
 		}
+		//This needs to be outside of key if statement
+		if(invincible == true){
+			invincibleCounter++;
+			if(invincibleCounter > 60){
+				invincible = false;
+				invincibleCounter = 0;
+			}
+		}
 
 	}	
 	public void interactNPC(int i){
@@ -120,13 +135,32 @@ public class Player extends Entity{
 			}
 		}
 
-	}	
+	}
+	public void contactMonster(int i){
+		if(i != 999){
+			
+			if(invincible == false){
+				gp.playSE(6);
+				int damage = gp.monster[i].attack - defense;
+
+				if(damage < 0){
+					damage = 0;
+				}
+
+				life -= damage;
+				invincible = true;
+			}
+		}
+	
+	
+	}
 
 	public void pickUpObject(int i){
 		if(i != 999){
 		
 		}
 	}
+	
 	public void draw(Graphics g2) {
         //g2.setColor(Color.WHITE);
         //g2.fillRect(x, y, gp.tileSize, gp.tileSize);
@@ -145,6 +179,13 @@ public class Player extends Entity{
 				if(spriteNum == 1){image = right1;}
 				if(spriteNum == 2){image = right2;}break;	
 		}
+
+		
 		g2.drawImage(image, screenX, screenY, null);
+		
+		// Debug
+		g2.setFont(new Font("Arial", Font.PLAIN, 26));
+		g2.setColor(Color.blue);
+		g2.drawString("Invencible: " + invincible, 10, 400);
 	}
 }

@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-    	System.out.println("iniciano o jogo");
+    	System.out.println("iniciando o jogo");
         JFrame window = new JFrame("Ancient Ruins 2");
         GamePanel gamePanel = new GamePanel();
         

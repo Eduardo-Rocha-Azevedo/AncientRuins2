@@ -1,9 +1,12 @@
 
 package entity;
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 import principal.GamePanel;
@@ -12,33 +15,64 @@ import principal.UtiliyTool;
 public class Entity {
 	protected GamePanel gp;
 	public int worldX, worldY;
-	public int speed;
+	
 
 	// SPRITE IMAGE
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
 	public BufferedImage image, image2, image3;
 	public String direction = "down";
 
-	// SPRITE CONFIG	
+	// COUNTER AND COLLISSION
+	public boolean collisioOn = false;
+	public int actionLockCounter = 0;
+	public boolean invincible = false;
+	public int invincibleCounter = 0;
 	public int spriteCouter = 0;
 	public int spriteNum = 1;
-	public int actionLockCounter = 0;
+	int dyainCounter = 0;
+	int hpBarCounter = 0;
 
 	// COLLISION
 	public Rectangle solidArea = new Rectangle();
 	public int solidAreaDefultX, solidAreaDefultY;
-	public boolean collisioOn = false;
+	
 	public String dialogue[] = new String[20];
 	public int dialogueIndex = 0;
+	
 
-	//Character Status
-	public String name;
-	public int value;
+	//CHARACTER STATUS
 	public int maxLife;
 	public int life;
-	public int cosmo;
-	public int maxCosmo;
+	public String name;
 	public int defaultSpeed;
+	public int speed;
+	public int level;
+	public int strength;
+	public int dexterity;
+	public int attack;
+	public int defense;
+	public int exp;
+	public int nextLevelExp;
+	public int coin;
+	public int value;
+	public int maxCosmo;
+	public int cosmo;
+	public Entity currentLight;
+	public Entity currentWeapon;
+	public Entity currentShield;
+	//public Projectile projectile;
+	public ArrayList <Entity> inventory = new ArrayList<>();
+	public final int maxInventorySize = 20;
+	public int motion1_duration;
+	public int motion2_duration;
+	public boolean boss = false;
+
+	//state
+	public boolean collision = false;
+	boolean attacking = false;
+	public boolean alive = true;
+	public boolean dyain = false;
+	boolean hpBarOn = false;
 
 
 	//Type
@@ -82,7 +116,18 @@ public class Entity {
 		collisioOn = false;
 		gp.cChecker.checkTile(this);
 		gp.cChecker.checkObject(this,false);
-		gp.cChecker.checkPlayer(this);
+		gp.cChecker.checkEntity(this, gp.npc);
+		gp.cChecker.checkEntity(this, gp.monster);
+
+		boolean contactPlayer = gp.cChecker.checkPlayer(this);
+
+		if(this.type == type_monster && contactPlayer == true){
+			if(gp.player.invincible == false){
+				gp.player.life -= this.attack - gp.player.defense;
+				gp.player.invincible = true;
+			}
+		}
+
 		//IF COLLISION IS FALSE, PLAYER CAN MOVE
 		if(collisioOn == false){
 			switch(direction){
@@ -127,8 +172,45 @@ public class Entity {
 					if(spriteNum == 1){image = right1;}
 					if(spriteNum == 2){image = right2;}break;	
 			}
-			g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+			if(invincible == true){
+				hpBarOn = true;
+				hpBarCounter = 0;
+				changeAlpha(g2, 0.4f);
+			}
+				if(dyain == true){
+					dyainAnimation(g2);
+				}
+		
+				g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+				changeAlpha(g2, 1f);
 		}
+	}
+
+	//animacao de dano
+	public void dyainAnimation(Graphics2D g2){
+		dyainCounter++;
+
+		int i= 5;
+
+		if(dyainCounter <= i)					       {changeAlpha(g2, 0f);}
+		if(dyainCounter > i    && dyainCounter <= i *2){changeAlpha(g2, 1f);}
+		if(dyainCounter > i *2 && dyainCounter <= i *3){changeAlpha(g2, 0f);}	
+		if(dyainCounter > i *3 && dyainCounter <= i *4){changeAlpha(g2, 1f);}
+		if(dyainCounter > i *4 && dyainCounter <= i *5){changeAlpha(g2, 0f);}
+		if(dyainCounter > i *5   && dyainCounter <= i *6){changeAlpha(g2, 1f);}
+		if(dyainCounter > i *6   && dyainCounter <= i *7){changeAlpha(g2, 0f);}
+		if(dyainCounter > i *7   && dyainCounter <= i *8){changeAlpha(g2, 1f);}	
+
+		if(dyainCounter > i*8){
+			alive = false;
+			dyain = false;
+		}
+		
+	}
+
+	public void changeAlpha(Graphics2D g2, float alphaValue){
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaValue));
+
 	}
 	// carrega a img
 	public BufferedImage setup(String imagePath, int width, int height) {
