@@ -1,6 +1,7 @@
 
 package entity;
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ public class Entity {
 
 	// SPRITE IMAGE
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+	public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
 	public BufferedImage image, image2, image3;
 	public String direction = "down";
 
@@ -33,7 +35,8 @@ public class Entity {
 	int hpBarCounter = 0;
 
 	// COLLISION
-	public Rectangle solidArea = new Rectangle();
+	public Rectangle solidArea = new Rectangle(0,0,0,0);
+	public Rectangle attackArea = new Rectangle(0,0, 48,48);
 	public int solidAreaDefultX, solidAreaDefultY;
 	
 	public String dialogue[] = new String[20];
@@ -74,7 +77,6 @@ public class Entity {
 	public boolean dyain = false;
 	boolean hpBarOn = false;
 
-
 	//Type
 	public int type; 
 	public final int type_player = 0;
@@ -113,18 +115,25 @@ public class Entity {
 	public void setAction(){}
 	public void update(){
 		setAction();
+
 		collisioOn = false;
 		gp.cChecker.checkTile(this);
-		gp.cChecker.checkObject(this,false);
-		gp.cChecker.checkEntity(this, gp.npc);
-		gp.cChecker.checkEntity(this, gp.monster);
-
+		gp.cChecker.checkObject(this, false);
+		gp.cChecker.checkEntity(this,gp.npc);
+		gp.cChecker.checkEntity(this,gp.monster);
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
-
-		if(this.type == type_monster && contactPlayer == true){
+		
+		if(this.type == 2 && contactPlayer == true){
 			if(gp.player.invincible == false){
-				gp.player.life -= this.attack - gp.player.defense;
-				gp.player.invincible = true;
+				//we can give damage
+				gp.playSE(6);
+				int damage = attack - gp.player.defense;
+
+				if(damage < 0){
+					damage = 0;
+				}
+				gp.player.life -= damage;
+				gp.player.invincible = true; 
 			}
 		}
 
@@ -134,7 +143,7 @@ public class Entity {
 				case "up":worldY -= speed;break;
 				case "down":worldY += speed;break;
 				case "left":worldX -= speed;break;
-				case "right":worldX += speed;break;	
+				case "right":worldX += speed;break;
 			}
 		}
 		
@@ -148,43 +157,81 @@ public class Entity {
 			}
 			spriteCouter = 0;
 		}
-	}
-	public void draw(Graphics2D g2){
-		int screenX = worldX - gp.player.worldX + gp.player.screenX;
-        int screenY = worldY - gp.player.worldY + gp.player.screenY;
-        if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-           worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-           worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-           worldY - gp.tileSize < gp.player.worldY + gp.player.screenY
-        ){
-			BufferedImage image = null;
-			switch(direction){
-				case "up":
-					if(spriteNum == 1){image = up1;}
-					if(spriteNum == 2){image = up2;}break;
-				case "down":
-					if(spriteNum == 1){image = down1;}
-					if(spriteNum == 2){image = down2;}break;
-				case "left": 
-					if(spriteNum == 1){image = left1;}
-					if(spriteNum == 2){image = left2;}break;
-				case "right":
-					if(spriteNum == 1){image = right1;}
-					if(spriteNum == 2){image = right2;}break;	
+
+		if(invincible == true){
+			invincibleCounter++;
+			if(invincibleCounter > 40){
+				invincible = false;
+				invincibleCounter = 0;
 			}
-			if(invincible == true){
-				hpBarOn = true;
-				hpBarCounter = 0;
-				changeAlpha(g2, 0.4f);
-			}
-				if(dyain == true){
-					dyainAnimation(g2);
-				}
-		
-				g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-				changeAlpha(g2, 1f);
 		}
 	}
+	public void draw(Graphics2D g2){
+		BufferedImage image = null;
+		int screenX = worldX - gp.player.worldX + gp.player.screenX;
+        int screenY = worldY - gp.player.worldY + gp.player.screenY;
+
+        if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && 
+			worldX - gp.tileSize < gp.player.worldX + gp.player.screenX && 
+			worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && 
+			worldY - gp.tileSize < gp.player.worldY + gp.player.screenY){
+
+	
+			switch(direction){
+			case "up":
+				if(spriteNum == 1){image = up1;}
+				if(spriteNum == 2){image = up2;}
+				break;
+			case "down":
+				if(spriteNum == 1){image = down1;}	
+				if(spriteNum == 2){image = down2;}
+				break;
+			case "left":
+				if(spriteNum == 1){image = left1;}		
+				if(spriteNum == 2){image = left2;}
+				break;
+			case "right":
+				if(spriteNum == 1){image = right1;}
+				if(spriteNum == 2){	image = right2;}
+			break;
+					
+		}
+		// Monster HP bar
+		if(type == 2 && hpBarOn == true){
+
+			double oneScale = (double)gp.tileSize /maxLife;
+			double hpBarValue = oneScale * life;
+
+			g2.setColor(new Color(35,35,35));
+			g2.fillRect(screenX - 2, screenY - 2, gp.tileSize + 4, 12);
+
+			g2.setColor(new Color(255,0,30));
+			g2.fillRect(screenX, screenY - 1, (int)hpBarValue, 10);
+
+			hpBarCounter++;
+
+			if(hpBarCounter > 600){
+				hpBarCounter = 0;
+				hpBarOn = false;	
+			}
+		}
+		
+
+		if(invincible == true){
+			hpBarOn = true;
+			hpBarCounter = 0;
+			changeAlpha(g2, 0.4f);
+		}
+
+		if(dyain == true){
+			dyainAnimation(g2);
+		}
+
+        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+		changeAlpha(g2, 1f);
+        }
+	}
+	
 
 	//animacao de dano
 	public void dyainAnimation(Graphics2D g2){
