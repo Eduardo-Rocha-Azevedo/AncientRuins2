@@ -11,7 +11,7 @@ import principal.KeyHandler;
 public class Player extends Entity{
 	
 	KeyHandler keyH;
-	
+
 	public final int screenX;
 	public final int screenY;
 	int standCounter = 0;
