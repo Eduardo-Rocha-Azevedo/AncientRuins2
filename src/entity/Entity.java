@@ -35,8 +35,8 @@ public class Entity {
 	int hpBarCounter = 0;
 
 	// COLLISION
-	public Rectangle solidArea = new Rectangle(0,0,0,0);
-	public Rectangle attackArea = new Rectangle(0,0, 48,48);
+	public Rectangle solidArea = new Rectangle(0,0,48,48);
+	public Rectangle attackArea = new Rectangle(0,0, 0,0);
 	public int solidAreaDefultX, solidAreaDefultY;
 	
 	public String dialogue[] = new String[20];
@@ -70,7 +70,11 @@ public class Entity {
 	public int motion2_duration;
 	public boolean boss = false;
 
+	// ITEM ATTRIBUTES
+	public int attackValue;
+	public int defenseValue;
 	//state
+	
 	public boolean collision = false;
 	boolean attacking = false;
 	public boolean alive = true;
@@ -266,6 +270,8 @@ public class Entity {
 		changeAlpha(g2, 1f);
         }
 	}
+	public void damageReaction(){}
+
 	//animacao de dano
 	public void dyainAnimation(Graphics2D g2){
 		dyainCounter++;

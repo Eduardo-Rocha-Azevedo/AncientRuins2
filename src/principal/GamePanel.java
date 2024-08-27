@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public AssetSetter aSetter = new AssetSetter(this);
 	public UI ui = new UI(this);
 	Thread gameThread;
-	public EventHandler eventH = new EventHandler(this);
+	public EventHandler eHandler = new EventHandler(this);
 
 	// ENTITY AND OBJECTS
 	public Player player = new Player(this, keyH);
@@ -58,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int playState = 1;
 	public final int pauseState = 2;
 	public final int dialogueState = 3;
+	public final int characterState = 4;
 
 	// constructor
 	public GamePanel() {
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
 			if (delta >= 1) {
 				update();
 				repaint();
-				//System.out.println("atualizando e renderizando");
+				// System.out.println("atualizando e renderizando");
 				delta--;
 				drawCount++;
 			}
@@ -126,21 +126,19 @@ public class GamePanel extends JPanel implements Runnable {
 					npc[i].update();
 				}
 			}
-			//MONSTER
-			for(int i = 0; i < monster.length; i++){
-				if(monster[i] != null){
-					monster[i].update();
-				  /*if(monster[i].alive == true && monster[i].dyain == false){
-					  monster[i].update();
-				   }
-				  if(monster[i].alive == false){
-					  monster[i] = null;
-					}  */  
-				  }
-			   }
+			// MONSTER
+			for (int i = 0; i < monster.length; i++) {
+				if (monster[i] != null) {
+					if (monster[i].alive == true && monster[i].dyain == false) {
+						monster[i].update();
+					}
+					if (monster[i].alive == false) {
+						monster[i] = null;
+					}
+				}
+			}
 		}
-		 
-		
+
 		if (gameState == pauseState) {
 			// nothing yet
 		}
@@ -148,7 +146,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//System.out.println("renderizando");
+		// System.out.println("renderizando");
 		Graphics2D g2 = (Graphics2D) g;
 
 		// TITLE MENU
@@ -175,17 +173,17 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 
-			//MONSTER
-			for(int i = 0; i < monster.length; i++){
-				if(monster[i] != null){
+			// MONSTER
+			for (int i = 0; i < monster.length; i++) {
+				if (monster[i] != null) {
 					entityList.add(monster[i]);
 				}
 			}
 
-			//SORT
-			Collections.sort(entityList, new Comparator<Entity>(){
+			// SORT
+			Collections.sort(entityList, new Comparator<Entity>() {
 				@Override
-				public int compare(Entity e1, Entity e2){
+				public int compare(Entity e1, Entity e2) {
 					int result = Integer.compare(e1.worldY, e2.worldY);
 					return result;
 				}
@@ -196,9 +194,8 @@ public class GamePanel extends JPanel implements Runnable {
 				entityList.get(i).draw(g2);
 			}
 
-			//EMPTY ENTITY LIST
+			// EMPTY ENTITY LIST
 			entityList.clear();
-
 
 			// UI
 			ui.draw(g2);

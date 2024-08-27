@@ -14,7 +14,7 @@ public class MON_GreenSlime extends Entity{
         name = "Slime Verde";
         defaultSpeed = 1;
         speed = defaultSpeed;
-        maxLife = 4;
+        maxLife = 2;
         life = maxLife;
        
         attack = 1;

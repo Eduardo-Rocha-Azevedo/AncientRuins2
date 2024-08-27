@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import objects.OBJ_Shield_Wood;
+import objects.OBJ_Sword_Normal;
 import principal.GamePanel;
 import principal.KeyHandler;
 
@@ -61,6 +63,21 @@ public class Player extends Entity{
 		nextLevelExp = 5;
 		coin = 0;
 
+		currentWeapon = new OBJ_Sword_Normal(gp);
+		currentShield = new OBJ_Shield_Wood(gp);
+		attack = getAttack(); //the total attack value is decided by strength and Weapon
+		defense = getDefense(); //the total defense value is decided by dexterity and Shield
+
+	}
+	
+	public int getAttack(){
+		
+		return attack = strength * currentWeapon.attackValue;
+	}
+
+	public int getDefense(){
+		
+		return defense = dexterity * currentShield.defenseValue;
 	}
 	public void getPlayerImage(){
 	
@@ -125,7 +142,7 @@ public class Player extends Entity{
 			contactMonster(monsterIndex);
 
 			//CHECK EVENT 
-			gp.eventH.checkEvent();
+			gp.eHandler.checkEvent();
 			
 
 			//IF COLLISION IS FALSE, PLAYER CAN MOVE
@@ -196,7 +213,7 @@ public class Player extends Entity{
 
 			//check collision with the update worldX/Y and solidArea
 			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-			
+			damageMonster(monsterIndex);
 
 			//After attack, reset player's worldX/Y and solidArea
 			worldX = currentWorldX;
@@ -244,7 +261,24 @@ public class Player extends Entity{
 			}
 		}
 	}
+	public void damageMonster(int i){
+		if(i != 999){
 
+			if(gp.monster[i].invincible == false){
+
+				gp.playSE(5);
+				gp.monster[i].life--;
+				gp.monster[i].invincible = true;
+				gp.monster[i].damageReaction();
+
+				//Check if monster is dead and remove of list
+				if(gp.monster[i].life <= 0){
+					gp.monster[i].dyain = true;
+					
+				}
+			}
+		}
+	}
 	public void checkLevelUp(){
 		if(exp >= nextLevelExp){
 			level++;
