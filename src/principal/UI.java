@@ -137,37 +137,60 @@ public class UI {
 			}
 
 		} else if (titleScreenState == 1) {
-			// class selection screen
-			g2.setColor(Color.white);
-			g2.setFont(g2.getFont().deriveFont(Font.BOLD, 48f));
-
-			String text = "Add history later";
-			int x = getXForCenterText(text);
-			int y = gp.tileSize * 3;
-			g2.drawString(text, x, y);
-
-			text = "Start";
-			x = getXForCenterText(text);
-			y += gp.tileSize;
-			g2.drawString(text, x, y);
-			if (commandNum == 0) {
-				g2.drawString(">", x - gp.tileSize, y);
-
-			}
-
-			text = "Back";
-			x = getXForCenterText(text);
-			y += gp.tileSize;
-			g2.drawString(text, x, y);
-			if (commandNum == 1) {
-				g2.drawString(">", x - gp.tileSize, y);
-			}
-
+			drawHistoryScreen();
 		}
 
 	}
 
 	public void drawHistoryScreen() {
+		int x, y, width, height;
+        
+        // gp.playMusic(12);
+    	g2.setColor(new Color(0,0,0));
+		g2.fillRect(0, 0, gp.screenWith, gp.screenHeight);
+			
+		// SELECTION SCREEN
+		g2.setColor(Color.WHITE);
+		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 25F));
+			
+        x = 2;
+        y = 3;
+        width = gp.tileSize*20;
+        height = gp.tileSize*12;
+        drawSubWindow(x, y, width, height-5);
+       // g2.drawString("Moeda: ", x+24, y +60);
+
+        String text = " No vasto continente de Aetheron, envolto em lendas e mistérios, erguem-se as ruínas de uma";x = getXForCenterText(text);
+		y = gp.tileSize;g2.drawString(text, x, y);
+		text = "civilização antiga, perdida no tempo. Há muito esquecida pelos habitantes modernos, estas  ";x = getXForCenterText(text);
+		y = gp.tileSize +35;g2.drawString(text, x, y);
+        text = "ruínas são um labirinto de segredos e perigos, esperando para serem explorados.               ";x = getXForCenterText(text);
+		y += 35;g2.drawString(text, x, y);
+        text = "Com uma antiga carta do seu avô, um renomado explorador que desapareceu procurando as";x = getXForCenterText(text);
+		y += 35;g2.drawString(text, x, y);
+        text = "mesmas ruínas décadas atrás, você parte em uma jornada.                                                     ";x = getXForCenterText(text);
+		y += 35;g2.drawString(text, x, y);
+
+
+        g2.setColor(Color.WHITE);
+		g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 25F));
+		text = "Iniciar Jogo";
+		x = getXForCenterText(text);
+		y += gp.tileSize*5;
+		g2.drawString(text, x, y);
+		if(commandNum == 0) {
+			g2.drawString(">", x - 18, y);
+                //gp.stopMusic();
+        }
+		text = "Voltar        ";
+		x = getXForCenterText(text);
+		y += gp.tileSize;
+		g2.drawString(text, x, y);
+		if(commandNum == 1) {
+				g2.drawString(">", x - 18, y);
+                
+			}
+    
 	}
 
 	public void drawPlayerLife() {
