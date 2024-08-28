@@ -128,7 +128,7 @@ public class Entity {
 		gp.cChecker.checkEntity(this,gp.monster);
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 		
-		if(this.type == 2 && contactPlayer == true){
+		if(this.type == type_monster && contactPlayer == true){
 			if(gp.player.invincible == false){
 				//we can give damage
 				gp.playSE(6);

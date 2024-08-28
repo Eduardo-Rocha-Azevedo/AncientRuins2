@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import entity.Entity;
 import objects.OBJ_CosmoCrystal;
@@ -21,11 +22,13 @@ public class UI {
 	Font maruMonica;
 	// mensage info
 	public boolean messageOn = false;
-	public String message = "";
+	//public String message = "";
+	//int messageCounter = 0;
 	public String currentDialog = "";
-	int messageCounter = 0;
 	public int commandNum = 0;
 	int titleScreenState = 0;
+	ArrayList<String> message = new ArrayList<>();
+	ArrayList<Integer> messageCounter = new ArrayList<>();
 
 	public UI(GamePanel gp) {
 		this.gp = gp;
@@ -50,9 +53,9 @@ public class UI {
 
 	}
 
-	public void showMassage(String text) {
-		message = text;
-		messageOn = true;
+	public void addMassage(String text) {
+		message.add(text);
+		messageCounter.add(0);
 	}
 
 	public void draw(Graphics2D g2) {
@@ -68,6 +71,7 @@ public class UI {
 		// PLAY STATE
 		if (gp.gameState == gp.playState) {
 			drawPlayerLife();
+			drawMessage();
 		}
 		// PAUSE STATE
 		if (gp.gameState == gp.pauseState) {
@@ -193,6 +197,29 @@ public class UI {
     
 	}
 
+	public void drawMessage(){
+		int messageX = gp.tileSize;
+		int messageY = gp.tileSize * 4;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20f));
+
+		// draw message
+		for(int i = 0; i < message.size(); i++){
+			if(message.get(i) != null){
+				g2.setColor(Color.white);
+				g2.drawString(message.get(i), messageX, messageY);
+				
+				int counter = messageCounter.get(i) + 1; //= mesageCounter++
+				messageCounter.set(i, counter);// set the counter to the array
+				messageY += 45;
+
+				// clear message
+				if(messageCounter.get(i) > 180){
+					message.remove(i);
+					messageCounter.remove(i);
+				}
+			}
+		}
+	}
 	public void drawPlayerLife() {
 		int x = gp.tileSize / 2;
 		int y = gp.tileSize / 2;

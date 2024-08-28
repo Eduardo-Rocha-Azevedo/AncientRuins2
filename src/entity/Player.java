@@ -267,13 +267,20 @@ public class Player extends Entity{
 			if(gp.monster[i].invincible == false){
 
 				gp.playSE(5);
-				gp.monster[i].life--;
+
+				int damage = attack - gp.monster[i].defense;
+				if(damage < 0){
+					damage = 0;
+				}
+				gp.monster[i].life -= damage;
+				gp.ui.addMassage(damage + " damage to " + gp.monster[i].name);
 				gp.monster[i].invincible = true;
 				gp.monster[i].damageReaction();
 
 				//Check if monster is dead and remove of list
 				if(gp.monster[i].life <= 0){
 					gp.monster[i].dyain = true;
+					gp.ui.addMassage("Killed " + gp.monster[i].name +"!");
 					
 				}
 			}
