@@ -20,7 +20,7 @@ public class TileManeger {
 		tile = new Tile[200];
 		mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 		getTileImage();
-		loadMap();
+		loadMap("/maps/mapV2.txt");
 	}
 
 	public void getTileImage() {
@@ -233,9 +233,9 @@ public class TileManeger {
 		}
 	}
 
-	public void loadMap() {
+	public void loadMap(String mapName) {
 		try {
-			InputStream is = getClass().getResourceAsStream("/maps/mapV2.txt");
+			InputStream is = getClass().getResourceAsStream(mapName);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 			int col = 0;

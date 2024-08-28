@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     public boolean up,down, left, right, enterPressed, spacePressed;
-    boolean checkDrawTime = false;
+    boolean showDebugText = false;
     public GamePanel gp;
 
     //CONSTRUCTOR =======================
@@ -121,9 +121,13 @@ public class KeyHandler implements KeyListener {
               
         //debug
 		if(code == KeyEvent.VK_T) {
-            if(checkDrawTime == false){checkDrawTime = true; }
-            else if(checkDrawTime == true){checkDrawTime = false;}
+            if(showDebugText == false){showDebugText = true; }
+            else if(showDebugText == true){showDebugText = false;}
         } 
+        //refresh the map
+        if(code == KeyEvent.VK_R){
+            gp.tileM.loadMap("/maps/mapV2.txt");
+        }
     }
 
     public void pauseState(int code){

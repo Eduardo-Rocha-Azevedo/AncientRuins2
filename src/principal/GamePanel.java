@@ -8,6 +8,7 @@ import tile.TileManeger;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -149,6 +150,7 @@ public class GamePanel extends JPanel implements Runnable {
 		// System.out.println("renderizando");
 		Graphics2D g2 = (Graphics2D) g;
 
+
 		// TITLE MENU
 		if (gameState == titleState) {
 			ui.draw(g2);
@@ -200,6 +202,21 @@ public class GamePanel extends JPanel implements Runnable {
 			// UI
 			ui.draw(g2);
 
+			//DEBUG
+			if(keyH.showDebugText == true){
+				g2.setFont(new Font ("Arial", Font.PLAIN, 20));
+				g2.setColor(Color.WHITE);
+				int x = 10;
+				int y = 400;
+
+				int lineHeight = 20;
+
+				
+				g2.drawString("worldX: " + player.worldX, x, y); y+=lineHeight;
+				g2.drawString("worldY: " + player.worldY, x, y);y+=lineHeight;
+				g2.drawString("col: " + (player.worldX + player.solidArea.x)/tileSize, x, y);y+=lineHeight;
+				g2.drawString("row: " + (player.worldY + player.solidArea.y)/tileSize, x, y);
+			}
 		}
 		g2.dispose();
 

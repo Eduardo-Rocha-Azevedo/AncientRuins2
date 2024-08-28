@@ -281,6 +281,9 @@ public class Player extends Entity{
 				if(gp.monster[i].life <= 0){
 					gp.monster[i].dyain = true;
 					gp.ui.addMassage("Killed " + gp.monster[i].name +"!");
+					gp.ui.addMassage("EXP + " + gp.monster[i].exp);
+					exp += gp.monster[i].exp;
+					checkLevelUp();
 					
 				}
 			}
@@ -293,11 +296,12 @@ public class Player extends Entity{
 			maxLife += 2;
 			strength++;
 			dexterity++;
-			
+			attack = getAttack();
+			defense = getDefense();
 			
 			gp.playSE(8);
 			gp.gameState = gp.dialogueState;
-			gp.ui.currentDialog = "Você estava no nível " + level + "\nVocê ficou mais forte!";
+			gp.ui.currentDialog = "You're level " + level + " now!\n"+"You feeel stronger!";
 		}
 	}
 	public void draw(Graphics g2) {
