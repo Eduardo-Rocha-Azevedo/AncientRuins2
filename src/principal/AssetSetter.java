@@ -32,8 +32,8 @@ public class AssetSetter {
 		i++;
 
 		gp.npc[i] = new NPC_Farmer(gp);
-		gp.npc[i].worldX = gp.tileSize * 19;
-		gp.npc[i].worldY = gp.tileSize * 21;
+		gp.npc[i].worldX = gp.tileSize * 14;
+		gp.npc[i].worldY = gp.tileSize * 63;
 		
 	}
 

@@ -41,7 +41,7 @@ public class Entity {
 	
 	public String dialogue[] = new String[20];
 	public int dialogueIndex = 0;
-	
+	public String description = "";
 
 	//CHARACTER STATUS
 	public int maxLife;
@@ -73,8 +73,8 @@ public class Entity {
 	// ITEM ATTRIBUTES
 	public int attackValue;
 	public int defenseValue;
-	//state
 	
+	//state
 	public boolean collision = false;
 	boolean attacking = false;
 	public boolean alive = true;
@@ -102,6 +102,7 @@ public class Entity {
 		this.gp = gp;
 		
 	}
+	public void setItems(){}
 	public void setDialogue(){}
 	public void speak(){
 		if(dialogue[dialogueIndex] == null){

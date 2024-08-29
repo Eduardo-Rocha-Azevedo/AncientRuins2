@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import objects.OBJ_Key;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 import principal.GamePanel;
@@ -43,6 +44,7 @@ public class Player extends Entity{
 		getPlayerAttackImage();
 		setDefultValues();
 		getPlayerImage();
+		setItems();
 		
 	}
 	
@@ -68,6 +70,12 @@ public class Player extends Entity{
 		attack = getAttack(); //the total attack value is decided by strength and Weapon
 		defense = getDefense(); //the total defense value is decided by dexterity and Shield
 
+	}
+
+	public void setItems(){
+		inventory.add(currentWeapon);
+		inventory.add(currentShield);
+		inventory.add(new OBJ_Key(gp));
 	}
 	
 	public int getAttack(){
@@ -292,7 +300,7 @@ public class Player extends Entity{
 	public void checkLevelUp(){
 		if(exp >= nextLevelExp){
 			level++;
-			nextLevelExp *= 2;
+			nextLevelExp *= 5;
 			maxLife += 2;
 			strength++;
 			dexterity++;
