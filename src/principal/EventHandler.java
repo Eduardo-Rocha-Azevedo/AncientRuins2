@@ -84,6 +84,7 @@ public class EventHandler {
             gp.player.attackCanceled = true;
             gp.ui.currentDialog = "You drink the water.\nYour life is restored.";
             gp.player.life = gp.player.maxLife;
+            gp.player.cosmo = gp.player.maxCosmo;
             gp.aSetter.setMonster();
         }
     }

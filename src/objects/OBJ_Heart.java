@@ -19,8 +19,10 @@ public class OBJ_Heart extends Entity {
 
 	}
 
-	/*
-	 * public boolean use(Entity e){ gp.playSE(1); gp.ui.addMessage("life +"+
-	 * value); e.life += value; return true; }
-	 */
+	public void use(Entity entity) {
+		gp.playSE(2);
+		gp.ui.addMassage("Life + " + value);
+		entity.life += value;
+
+	}
 }

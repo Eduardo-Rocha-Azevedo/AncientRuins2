@@ -31,6 +31,7 @@ public class Entity {
 	public int invincibleCounter = 0;
 	public int spriteCouter = 0;
 	public int spriteNum = 1;
+	public int shotAvailableCounter = 0;
 	int dyainCounter = 0;
 	int hpBarCounter = 0;
 
@@ -60,6 +61,7 @@ public class Entity {
 	public int value;
 	public int maxCosmo;
 	public int cosmo;
+	public int ammo;
 	public Entity currentLight;
 	public Entity currentWeapon;
 	public Entity currentShield;
@@ -131,17 +133,7 @@ public class Entity {
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 		
 		if(this.type == type_monster && contactPlayer == true){
-			if(gp.player.invincible == false){
-				//we can give damage
-				gp.playSE(6);
-				int damage = attack - gp.player.defense;
-
-				if(damage < 0){
-					damage = 0;
-				}
-				gp.player.life -= damage;
-				gp.player.invincible = true; 
-			}
+			damagePlayer(attack);
 		}
 
 		//IF COLLISION IS FALSE, PLAYER CAN MOVE
@@ -172,6 +164,23 @@ public class Entity {
 				invincibleCounter = 0;
 			}
 		}
+		if(shotAvailableCounter < 30){
+			shotAvailableCounter++;
+		}
+	}
+	public void damagePlayer(int attack){
+		if(gp.player.invincible == false){
+			//we can give damage
+			gp.playSE(6);
+			int damage = attack - gp.player.defense;
+
+			if(damage < 0){
+				damage = 0;
+			}
+			gp.player.life -= damage;
+			gp.player.invincible = true; 
+		}
+		
 	}
 	public void draw(Graphics2D g2){
 		
@@ -274,6 +283,17 @@ public class Entity {
 	}
 	public void damageReaction(){}
 	public void use(Entity entity){}
+	public void checkDrop(){}
+	public void dropItem(Entity droppedItem){
+		for(int i = 0; i < gp.obj.length; i++){
+			if(gp.obj[i] == null){
+				gp.obj[i] = droppedItem;
+				gp.obj[i].worldX = worldX;
+				gp.obj[i].worldY = worldY;
+				break;
+			}
+		}
+	}
 	//animacao de dano
 	public void dyainAnimation(Graphics2D g2){
 		dyainCounter++;
