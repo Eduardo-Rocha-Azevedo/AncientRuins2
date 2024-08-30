@@ -16,10 +16,5 @@ public class OBJ_CosmoCrystal extends Entity {
 		image2 = setup("/objects/cosmo_blank", gp.tileSize, gp.tileSize);
 	}
 
-	public boolean use(Entity e) {
-		gp.playSE(1);
-		// gp.ui.addMessage("Cosmo +"+ value);
-		e.cosmo += value;
-		return true;
-	}
+	
 }

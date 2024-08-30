@@ -3,7 +3,11 @@ package principal;
 import entity.NPC_Farmer;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
+import objects.OBJ_Axe;
 import objects.OBJ_Chest;
+import objects.OBJ_Key;
+import objects.OBJ_Potion_Red;
+import objects.OBJ_Shield_Blue;
 
 public class AssetSetter {
 	GamePanel gp;
@@ -14,14 +18,25 @@ public class AssetSetter {
 
 	public void setObject() {
 		int i = 0;
-		/*gp.obj[i] = new OBJ_Chest(gp);
-		gp.obj[i].worldX = gp.tileSize * 23;
-		gp.obj[i].worldY = gp.tileSize * 23;i++;
-		
-		gp.obj[i] = new OBJ_Chest(gp);
-		gp.obj[i].worldX = gp.tileSize * 23;
-		gp.obj[i].worldY = gp.tileSize * 25;
-		i++;*/
+		gp.obj[i] = new OBJ_Key(gp);
+		gp.obj[i].worldX = gp.tileSize * 25;
+		gp.obj[i].worldY = gp.tileSize * 23;
+		i++;
+
+		gp.obj[i] = new OBJ_Axe(gp);
+		gp.obj[i].worldX = gp.tileSize * 31;
+		gp.obj[i].worldY = gp.tileSize * 21;
+		i++;
+
+		gp.obj[i] = new OBJ_Shield_Blue(gp);
+		gp.obj[i].worldX = gp.tileSize * 37;
+		gp.obj[i].worldY = gp.tileSize * 21;
+		i++;
+
+		gp.obj[i] = new OBJ_Potion_Red(gp);
+		gp.obj[i].worldX = gp.tileSize * 25;
+		gp.obj[i].worldY = gp.tileSize * 23;
+		i++;
 	}
 
 	public void setNPC() {

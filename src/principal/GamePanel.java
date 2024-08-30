@@ -50,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity npc[] = new Entity[10];
 	public Entity obj[] = new Entity[10];
 	public Entity monster[] = new Entity[20];
+	public ArrayList<Entity> projectileList = new ArrayList<>();
 	ArrayList<Entity> entityList = new ArrayList<>();
 
 	// Game State
@@ -138,6 +139,18 @@ public class GamePanel extends JPanel implements Runnable {
 					}
 				}
 			}
+			//PROJECTILE
+			for(int i = 0; i < projectileList.size(); i++){
+				if(projectileList.get(i) != null){
+				 if(projectileList.get(i).alive == true){
+					 projectileList.get(i).update();
+				 }
+	 
+				 if(projectileList.get(i).alive == false){
+					 projectileList.remove(i);
+				 }
+			   }
+			 }
 		}
 
 		if (gameState == pauseState) {
@@ -163,24 +176,31 @@ public class GamePanel extends JPanel implements Runnable {
 			// ADD ENTITIES TO THE LIST
 			entityList.add(player);
 			// NPC
-			for (int i = 0; i < npc.length; i++) {
+			for(int i = 0; i < npc.length; i++) {
 				if (npc[i] != null) {
 					entityList.add(npc[i]);
 				}
 			}
 			// OBJECT
-			for (int i = 0; i < obj.length; i++) {
+			for(int i = 0; i < obj.length; i++) {
 				if (obj[i] != null) {
 					entityList.add(obj[i]);
 				}
 			}
 
 			// MONSTER
-			for (int i = 0; i < monster.length; i++) {
+			for(int i = 0; i < monster.length; i++) {
 				if (monster[i] != null) {
 					entityList.add(monster[i]);
 				}
 			}
+
+			  //projectile
+			  for(int i = 0; i < projectileList.size(); i++){
+                if(projectileList.get(i) != null){
+                    entityList.add(projectileList.get(i));
+                }
+            }
 
 			// SORT
 			Collections.sort(entityList, new Comparator<Entity>() {

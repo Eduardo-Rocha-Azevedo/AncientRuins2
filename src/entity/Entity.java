@@ -63,7 +63,7 @@ public class Entity {
 	public Entity currentLight;
 	public Entity currentWeapon;
 	public Entity currentShield;
-	//public Projectile projectile;
+	public Projectile projectile;
 	public ArrayList <Entity> inventory = new ArrayList<>();
 	public final int maxInventorySize = 20;
 	public int motion1_duration;
@@ -73,6 +73,7 @@ public class Entity {
 	// ITEM ATTRIBUTES
 	public int attackValue;
 	public int defenseValue;
+	public int useCost;
 	
 	//state
 	public boolean collision = false;
@@ -272,7 +273,7 @@ public class Entity {
         }
 	}
 	public void damageReaction(){}
-
+	public void use(Entity entity){}
 	//animacao de dano
 	public void dyainAnimation(Graphics2D g2){
 		dyainCounter++;
@@ -290,7 +291,7 @@ public class Entity {
 
 		if(dyainCounter > i*8){
 			alive = false;
-			dyain = false;
+			
 		}
 		
 	}
