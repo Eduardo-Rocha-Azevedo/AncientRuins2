@@ -9,7 +9,7 @@ public class OBJ_Rock extends Projectile{
     public OBJ_Rock(GamePanel gp) {
         super(gp);
         name = objName;
-        maxLife = 80;
+        maxLife = 50;
         speed = 7;
         attack = 5;
         useCost = 1;
