@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import objects.OBJ_Axe;
 import objects.OBJ_Fireball;
 import objects.OBJ_Key;
 import objects.OBJ_Shield_Wood;
@@ -63,7 +64,7 @@ public class Player extends Entity {
 		nextLevelExp = 5;
 		coin = 0;
 
-		currentWeapon = new OBJ_Sword_Normal(gp);
+		currentWeapon = new OBJ_Axe(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
 		projectile = new OBJ_Fireball(gp);
 		attack = getAttack(); // the total attack value is decided by strength and Weapon
@@ -373,6 +374,9 @@ public class Player extends Entity {
 			gp.iTile[i].playSE();
 			gp.iTile[i].life--;
 			gp.iTile[i].invincible = true;
+
+			//generate particle
+			generateParticle(gp.iTile[i], gp.iTile[i]);
 			if(gp.iTile[i].life == 0){
 				gp.iTile[i] = gp.iTile[i].getDestroyedForm();
 			}
