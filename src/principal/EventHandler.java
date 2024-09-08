@@ -82,6 +82,7 @@ public class EventHandler {
         if(gp.keyH.enterPressed == true){
             gp.gameState = gameState;
             gp.player.attackCanceled = true;
+            gp.playSE(2);
             gp.ui.currentDialog = "You drink the water.\nYour life is restored.";
             gp.player.life = gp.player.maxLife;
             gp.player.cosmo = gp.player.maxCosmo;

@@ -110,7 +110,7 @@ public class UI {
 			g2.drawString(text, x, y);
 
 			// player img
-			x = gp.screenWith / 2 - (gp.tileSize * 2) / 2;
+			x = gp.screenWidth / 2 - (gp.tileSize * 2) / 2;
 			y += gp.tileSize * 2;
 			g2.drawImage(gp.player.down1, x, y, gp.tileSize * 2, gp.tileSize * 2, null);
 
@@ -154,7 +154,7 @@ public class UI {
 
 		// gp.playMusic(12);
 		g2.setColor(new Color(0, 0, 0));
-		g2.fillRect(0, 0, gp.screenWith, gp.screenHeight);
+		g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
 
 		// SELECTION SCREEN
 		g2.setColor(Color.WHITE);
@@ -302,7 +302,7 @@ public class UI {
 		// WINDOW
 		int x = gp.tileSize * 2;
 		int y = gp.tileSize / 2;
-		int width = gp.screenWith - (gp.tileSize * 4);
+		int width = gp.screenWidth - (gp.tileSize * 4);
 		int height = gp.tileSize * 4;
 
 		drawSubWindow(x, y, width, height);
@@ -494,14 +494,14 @@ public class UI {
 
 	public int getXForCenterText(String text) {
 		int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-		int x = gp.screenWith / 2 - length / 2;
+		int x = gp.screenWidth / 2 - length / 2;
 		return x;
 	}
 
 	public int getXForCenteredText(String text) {
 		int x;
 		int length = (int) g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-		x = gp.screenWith / 2 - length / 2;
+		x = gp.screenWidth / 2 - length / 2;
 		return x;
 	}
 

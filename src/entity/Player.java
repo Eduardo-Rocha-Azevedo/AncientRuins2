@@ -25,7 +25,7 @@ public class Player extends Entity {
 		super(gp);
 		this.keyH = keyH;
 
-		screenX = gp.screenWith / 2 - (gp.tileSize / 2);
+		screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
 		screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
 
 		solidArea = new Rectangle();
@@ -37,7 +37,7 @@ public class Player extends Entity {
 
 		solidArea.width = 32;
 		solidArea.height = 32;
-
+		update();
 		setDefultValues();
 		getImage();
 		getPlayerAttackImage();
@@ -165,22 +165,15 @@ public class Player extends Entity {
 			// CHECK EVENT
 			gp.eHandler.checkEvent();
 
-			// IF COLLISION IS FALSE, PLAYER CAN MOVE
-			if (collisioOn == false && keyH.enterPressed == false) {
-				switch (direction) {
-					case "up":
-						worldY -= speed;
-						break;
-					case "down":
-						worldY += speed;
-						break;
-					case "left":
-						worldX -= speed;
-						break;
-					case "right":
-						worldX += speed;
-						break;
+			//IF COLLISION IS FALSE, PLAYER CAN MOVE
+			if(collisioOn == false && keyH.enterPressed == false){
+				switch(direction){
+					case "up":worldY -= speed;break;
+					case "down":worldY += speed;break;
+					case "left":worldX -= speed;break;
+					case "right":worldX += speed;break;
 				}
+			
 			}
 			if (keyH.enterPressed == true && attackCanceled == false) {
 				gp.playSE(7);
@@ -228,13 +221,6 @@ public class Player extends Entity {
 		if (shotAvailableCounter < 30) {
 			shotAvailableCounter++;
 		}
-
-		if(life > maxLife){
-			life = maxLife;
-		}
-		if(cosmo > maxCosmo){
-			cosmo = maxCosmo;
-		}
 	}
 
 	public void attacking() {
@@ -253,19 +239,11 @@ public class Player extends Entity {
 			int solidAreaHeight = solidArea.height;
 
 			// Adjust player's wordX/Y for the attack
-			switch (direction) {
-				case "up":
-					worldX -= attackArea.height;
-					break;
-				case "down":
-					worldX += attackArea.height;
-					break;
-				case "left":
-					worldY -= attackArea.width;
-					break;
-				case "right":
-					worldY += attackArea.width;
-					break;
+			switch(direction){
+				case "up": worldX -= attackArea.height;break;
+				case "down": worldX += attackArea.height;break;
+				case "left": worldY -= attackArea.width;break;
+				case "right": worldY += attackArea.width;break;
 			}
 			// attackArea becomes solidArea
 			solidArea.width = attackArea.width;
@@ -288,6 +266,12 @@ public class Player extends Entity {
 			spriteNum = 1;
 			spriteCouter = 0;
 			attacking = false;
+		}
+		if(life > maxLife){
+            life = maxLife;
+        }
+		if(cosmo > maxCosmo){
+			cosmo = maxCosmo;
 		}
 	}
 
@@ -313,16 +297,16 @@ public class Player extends Entity {
 		}
 	}
 
-	public void interactNPC(int i) {
+	public void interactNPC(int i){
 
-		if (gp.keyH.enterPressed == true) {
+		if(gp.keyH.enterPressed == true){
 
-			if (i != 999) {
+			if(i != 999){
 				attackCanceled = true;
 				gp.gameState = gp.dialogueState;
 				gp.npc[i].speak();
 			}
-
+			else{attacking = true;}	
 		}
 	}
 
@@ -332,9 +316,8 @@ public class Player extends Entity {
 				gp.playSE(6);
 				int damage = gp.monster[i].attack - defense;
 
-				if (damage < 0) {
-					damage = 0;
-				}
+				if (damage < 0) {damage = 0;}
+			
 				life -= damage;
 				invincible = true;
 			}
@@ -385,12 +368,14 @@ public class Player extends Entity {
 	public void checkLevelUp() {
 		if (exp >= nextLevelExp) {
 			level++;
+			cosmo++;
 			nextLevelExp *= 5;
 			maxLife += 2;
+			maxCosmo++;
 			strength++;
 			dexterity++;
-			attack = getAttack();
-			defense = getDefense();
+			//attack = getAttack();
+			//defense = getDefense();
 
 			gp.playSE(8);
 			gp.gameState = gp.dialogueState;

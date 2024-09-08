@@ -48,7 +48,7 @@ public class OBJ_Fireball extends Projectile{
         return color;
     }
     public int getParticleSize(){
-        int size = 10;//6 pixels
+        int size = 7;// pixels
         return size;
     }
     public int getParticleSpeed(){
