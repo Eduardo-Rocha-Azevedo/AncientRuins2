@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -64,94 +65,105 @@ public class UI {
 	public void draw(Graphics2D g2) {
 		this.g2 = g2;
 
-		g2.setFont(maruMonica);
-		g2.setColor(Color.WHITE);
+        g2.setFont(maruMonica);  
+        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2.setColor(Color.white);
+        
+        //TITLE SCREEN
+        if(gp.gameState == gp.titleState){
+            drawTitleScreen();
+        }
+        //PLAY STATE
+        if(gp.gameState == gp.playState){
+            //HEARTS
+            drawPlayerLife();
+            drawMessage();
+        }
+        //PAUSE STATE
+        else if(gp.gameState == gp.pauseState){
+             drawPlayerLife();
+             drawPauseScreen();
+           
+        }
+        //DIALOG STATE
+        else if(gp.gameState == gp.dialogueState){
+            drawPlayerLife(); 
+            drawDialogScreen();
+        }
 
-		// TITLE SCREEN
-		if (gp.gameState == gp.titleState) {
-			drawTitleScreen();
-		}
-		// PLAY STATE
-		if (gp.gameState == gp.playState) {
-			drawPlayerLife();
-			drawMessage();
-		}
-		// PAUSE STATE
-		if (gp.gameState == gp.pauseState) {
-			drawPlayerLife();
-			drawPauseScreen();
-		}
-		// DIALOGUE STATE
-		if (gp.gameState == gp.dialogueState) {
-			drawPlayerLife();
-			drawDialogScreen();
-		}
-		// CHARACTER STATE
-		else if (gp.gameState == gp.characterState) {
-			
-			drawCharacterScreen();
-			drawInventory();
-		}
-		// OPTION STATE
-		else if (gp.gameState == gp.optionState) {	
-			drawOptionScreen();
-		}
+        //CHARACTER STATE
+        else if(gp.gameState == gp.characterState){
+            drawCharacterScreen();
+            drawInventory();
+
+        }
+
+        //OPTION STATE
+        else if(gp.gameState == gp.optionState){
+            drawOptionScreen();
+        }
+
+        
 	}
 
 	public void drawTitleScreen() {
-		if (titleScreenState == 0) {
-			// title name
-			g2.setFont(g2.getFont().deriveFont(Font.BOLD, 96f));
-			String text = "Ancient Ruin 2";
+		if(titleScreenState == 0) {
+			//TITLE NAME
+           // gp.playMusic(12);
+			g2.setColor(new Color(0,0,0));
+			g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+			
+			g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
+			String text = "Ancient Ruin";
 			int x = getXForCenterText(text);
-			int y = gp.tileSize * 3;
-
-			// shadow
-			g2.setColor(new Color(128, 128, 128, 220));
-			g2.drawString(text, x + 5, y + 5);
-
-			// main color
+			int y = gp.tileSize*3;
+			
+			//SHADOW
+			g2.setColor(Color.gray);
+			g2.drawString(text, x+5, y+5);
+			
+			//MAIN COLOR
 			g2.setColor(Color.white);
 			g2.drawString(text, x, y);
-
-			// player img
-			x = gp.screenWidth / 2 - (gp.tileSize * 2) / 2;
-			y += gp.tileSize * 2;
-			g2.drawImage(gp.player.down1, x, y, gp.tileSize * 2, gp.tileSize * 2, null);
-
-			// Menu
-			g2.setFont(g2.getFont().deriveFont(Font.BOLD, 38f));
-			text = "New Game";
+			
+			//CHARACTER IMAGE
+			x = gp.screenWidth/2 - gp.tileSize/2;
+			y += gp.tileSize*2 - 30;
+			g2.drawImage(gp.player.down1, x, y, gp.tileSize, gp.tileSize, null);
+			
+			//MENU
+			g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
+			
+			text = "NEW GAME";
 			x = getXForCenterText(text);
-			y += gp.tileSize * 3.5;
+			y += gp.tileSize*2;
 			g2.drawString(text, x, y);
-
-			if (commandNum == 0) {
-				g2.drawString(">", x - gp.tileSize, y);
+			if(commandNum == 0) {
+				g2.drawString(">", x - (gp.tileSize/2), y);
+                
 			}
-
-			text = "Load Game";
-			x = getXForCenterText(text);
-			y += gp.tileSize;
-			g2.drawString(text, x, y);
-
-			if (commandNum == 1) {
-				g2.drawString(">", x - gp.tileSize, y);
-			}
-
-			text = "Quit";
+			
+			text = "LOAD GAME";
 			x = getXForCenterText(text);
 			y += gp.tileSize;
 			g2.drawString(text, x, y);
-
-			if (commandNum == 2) {
-				g2.drawString(">", x - gp.tileSize, y);
+			if(commandNum == 1) {
+				g2.drawString(">", x - (gp.tileSize/2), y);
 			}
-
-		} else if (titleScreenState == 1) {
-			drawHistoryScreen();
+			
+			text = "QUIT";
+			x = getXForCenterText(text);
+			y += gp.tileSize;
+			g2.drawString(text, x, y);
+			if(commandNum == 2) {
+				g2.drawString(">", x - (gp.tileSize/2), y);
+			}
 		}
-
+        //History Screen
+		else if (titleScreenState == 1) {
+			drawHistoryScreen();
+           
+		}
 	}
 
 	public void drawHistoryScreen() {
@@ -496,7 +508,8 @@ public class UI {
 		switch(subState){
 			case 0: options_top(frameX, frameY);break;
 			case 1: options_fullScreen(frameX, frameY);break;
-			case 2: break;
+			case 2: options_control(frameX, frameY);break;
+			case 3: options_endGame(frameX, frameY);break;
 		}
 		gp.keyH.enterPressed = false;
 	}
@@ -549,20 +562,32 @@ public class UI {
 		g2.drawString("Controls", textX, textY);
 		if(commandNum == 3){
 			g2.drawString(">", textX - 25, textY);
+			if(gp.keyH.enterPressed == true){
+				subState = 2;
+				commandNum = 0;
+			}
 		}
 
-		// End game
-		textY += gp.tileSize;
-		g2.drawString("End Game", textX, textY);
-		if(commandNum == 4){
-			g2.drawString(">", textX - 25, textY);
-		}
+		//End Game
+        textY += gp.tileSize;
+        g2.drawString("Exit", textX, textY);
+        if(commandNum == 4){
+            g2.drawString(">", textX - 25, textY);
+            if(gp.keyH.enterPressed == true){
+                subState = 3;
+                commandNum = 0;
+            }
+        }
 
 		//Back
 		textY += gp.tileSize * 2;
 		g2.drawString("Back", textX, textY);
 		if(commandNum == 5){
 			g2.drawString(">", textX - 25, textY);
+			if(gp.keyH.enterPressed == true){
+				gp.gameState = gp.playState;
+				commandNum = 0;
+			}
 		}
 
 		// FULL SCREEN CHECK BOX
@@ -609,11 +634,90 @@ public class UI {
 			}
 		}
 	}
+	
+	public void options_control(int frameX, int frameY){
+		int textX;
+		int textY;
+
+		// TITLE
+		String text = "Controls";
+		textX = getXForCenterText(text);
+		textY = frameY + gp.tileSize;
+		g2.drawString(text, textX, textY);
+
+		textX = frameX + gp.tileSize;
+		textY += gp.tileSize;
+		g2.drawString("Move", textX, textY); textY += gp.tileSize;
+		g2.drawString("Confirm/Attack", textX, textY); textY += gp.tileSize;
+		g2.drawString("Shoot/Cast", textX, textY); textY += gp.tileSize;
+		g2.drawString("Character status", textX, textY); textY += gp.tileSize;
+		g2.drawString("Pause", textX, textY); textY += gp.tileSize;
+		g2.drawString("Options", textX, textY); textY += gp.tileSize;
+
+		textX = frameX + gp.tileSize * 6;
+		textY = frameY + gp.tileSize * 2;
+		g2.drawString("WASD", textX, textY); textY += gp.tileSize;
+		g2.drawString("Enter", textX, textY); textY += gp.tileSize;
+		g2.drawString("F", textX, textY); textY += gp.tileSize;
+		g2.drawString("E", textX, textY); textY += gp.tileSize;
+		g2.drawString("P", textX, textY); textY += gp.tileSize;
+		g2.drawString("ESC", textX, textY); textY += gp.tileSize;
+
+		// BACK
+		textX = frameX + gp.tileSize;
+		textY = frameY + gp.tileSize * 9;
+		g2.drawString("Back", textX, textY);
+		if(commandNum == 0){
+			g2.drawString(">", textX - 25, textY);
+			if(gp.keyH.enterPressed == true){
+				subState = 0;
+				commandNum = 4;
+			}
+		}
+	}
+	public void options_endGame(int frameX, int frameY){
+		int textX = frameX + gp.tileSize;
+        int textY = frameY + gp.tileSize*3;
+        
+        currentDialog = "Quit the game and \nreturn to the title menu?";
+        for (String line : currentDialog.split("\n")) {
+            g2.drawString(line, textX, textY);
+            textY += 30;
+        }
+
+        //YES
+        String text = "Sim";
+        textX = getXForCenterText(text);
+        textY += gp.tileSize*3;
+        g2.drawString(text, textX, textY);
+        if(commandNum == 0){
+            g2.drawString(">", textX - 25, textY);
+            if (gp.keyH.enterPressed == true) {
+                subState = 0;
+                gp.stopMusic();
+                gp.gameState = gp.titleState;
+                gp.ui.titleScreenState = 0;
+               
+            }
+        }
+
+        //NO
+        text = "Não";
+        textX = getXForCenterText(text);
+        textY += gp.tileSize;
+        g2.drawString(text, textX, textY);
+        if(commandNum == 1){
+            g2.drawString(">", textX - 25, textY);
+            if (gp.keyH.enterPressed == true) {
+                subState = 0;
+                commandNum = 4;
+            }
+        }
+	}
 	public int getItemIndexOnSlot() {
 		int itemIndex = slotCol + (slotRow * 5);
 		return itemIndex;
 	}
-
 	public void drawSubWindow(int x, int y, int width, int height) {
 		Color c = new Color(0, 0, 0, 210);
 		g2.setColor(c);
