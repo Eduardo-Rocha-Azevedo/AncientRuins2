@@ -9,11 +9,14 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Ancient Ruins 2");
-        window.setUndecorated(true);
-
+      
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
-
+        gamePanel.config.loadConfig();
+        if(gamePanel.fullScreenOn == true){
+            window.setUndecorated(true);
+        }
+      
         window.pack();
 
         window.setLocationRelativeTo(null); // Centraliza a janela
