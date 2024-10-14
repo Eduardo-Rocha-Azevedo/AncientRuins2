@@ -45,6 +45,22 @@ public class Player extends Entity {
 
 	}
 
+	public void setDefultPosition(){
+		worldX = gp.tileSize * 23;
+		worldY = gp.tileSize * 21;
+		direction = "down";
+	}
+	public void restoreLifeAndCosmo(){
+		life = maxLife;
+		cosmo = maxCosmo;
+		invincible = false;
+	}
+	public void setItems() {
+		inventory.clear();
+		inventory.add(currentWeapon);
+		inventory.add(currentShield);
+		// if you want to add more items, you can add them here
+	}
 	public void setDefultValues() {
 
 		worldX = gp.tileSize * 23;
@@ -72,11 +88,7 @@ public class Player extends Entity {
 
 	}
 
-	public void setItems() {
-		inventory.add(currentWeapon);
-		inventory.add(currentShield);
-		// if you want to add more items, you can add them here
-	}
+
 
 	public int getAttack() {
 		attackArea = currentWeapon.attackArea;
@@ -221,6 +233,12 @@ public class Player extends Entity {
 		if (shotAvailableCounter < 30) {
 			shotAvailableCounter++;
 		}
+		if(life <= 0){
+			gp.gameState = gp.gameOverState;
+			gp.ui.commandNum--;
+		
+			gp.playSE(12);
+		}
 	}
 
 	public void attacking() {
@@ -273,6 +291,7 @@ public class Player extends Entity {
 		if(cosmo > maxCosmo){
 			cosmo = maxCosmo;
 		}
+		
 	}
 
 	public void pickUpObject(int i) {
@@ -374,9 +393,7 @@ public class Player extends Entity {
 			maxCosmo++;
 			strength++;
 			dexterity++;
-			//attack = getAttack();
-			//defense = getDefense();
-
+			
 			gp.playSE(8);
 			gp.gameState = gp.dialogueState;
 			gp.ui.currentDialog = "You're level " + level + " now!\n" + "You feeel stronger!";
@@ -418,83 +435,48 @@ public class Player extends Entity {
 
 			case "up":
 				if (attacking == false) {
-					if (spriteNum == 1) {
-						image = up1;
-					}
-					if (spriteNum == 2) {
-						image = up2;
-					}
-				}
+					if (spriteNum == 1) {image = up1;}
+					if (spriteNum == 2) {image = up2;}
+				}		
+
 				if (attacking == true) {
 					tempScreenY = screenY - gp.tileSize;
-					if (spriteNum == 1) {
-						image = attackUp1;
-					}
-					if (spriteNum == 2) {
-						image = attackUp2;
-					}
+					if (spriteNum == 1) {image = attackUp1;}
+					if (spriteNum == 2) {image = attackUp2;}	
 				}
 				break;
 
 			case "down":
 				if (attacking == false) {
-
-					if (spriteNum == 1) {
-						image = down1;
-					}
-					if (spriteNum == 2) {
-						image = down2;
-					}
+					if (spriteNum == 1) {image = down1;}
+					if (spriteNum == 2) {image = down2;}			
 				}
 				if (attacking == true) {
-
-					if (spriteNum == 1) {
-						image = attackDown1;
-					}
-					if (spriteNum == 2) {
-						image = attackDown2;
-					}
+					if (spriteNum == 1) {image = attackDown1;}
+					if (spriteNum == 2) {image = attackDown2;}	
 				}
 				break;
 
 			case "left":
 				if (attacking == false) {
-
-					if (spriteNum == 1) {
-						image = left1;
-					}
-					if (spriteNum == 2) {
-						image = left2;
-					}
+					if (spriteNum == 1) {image = left1;}
+					if (spriteNum == 2) {image = left2;}
 				}
 				if (attacking == true) {
 					tempScreenX = screenX - gp.tileSize;
-					if (spriteNum == 1) {
-						image = attackLeft1;
-					}
-					if (spriteNum == 2) {
-						image = attackLeft2;
-					}
+					if (spriteNum == 1) {image = attackLeft1;}
+					if (spriteNum == 2) {image = attackLeft2;}	
 				}
 				break;
 
 			case "right":
 				if (attacking == false) {
-
-					if (spriteNum == 1) {
-						image = right1;
-					}
-					if (spriteNum == 2) {
-						image = right2;
-					}
+					if (spriteNum == 1) {image = right1;}
+					if (spriteNum == 2) {image = right2;}	
 				}
 				if (attacking == true) {
-					if (spriteNum == 1) {
-						image = attackRight1;
-					}
-					if (spriteNum == 2) {
-						image = attackRight2;
-					}
+					if (spriteNum == 1) {image = attackRight1;}
+					if (spriteNum == 2) {image = attackRight2;}	
 				}
 				break;
 		}

@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int dialogueState = 3;
 	public final int characterState = 4;
 	public final int optionState = 5;
+	public final int gameOverState = 6;
 
 	// constructor
 	public GamePanel() {
@@ -97,7 +98,22 @@ public class GamePanel extends JPanel implements Runnable {
 			setFullScreen();
 		}
 	}
-
+	public void retry(){
+		player.setDefultPosition();
+		player.restoreLifeAndCosmo();
+		aSetter.setNPC();
+		aSetter.setMonster();
+		
+	}
+	public void restart(){
+		player.setDefultValues();
+		player.setDefultPosition();
+		player.setItems();
+		aSetter.setNPC();
+		aSetter.setMonster();
+		aSetter.setInteractiveTile();
+		stopMusic();
+	} 
 	public void setFullScreen() {
 		// GET LOCAL SCREEN DEVICE
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -117,36 +133,6 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
-	@Override
-	public void run() {
-		double drawInterval = 1000000000 / FPS;
-		double delta = 0;
-		long lastTime = System.nanoTime();
-		long currentTime;
-		long timer = 0;
-		int drawCount = 0;
-
-		while (gameThread != null) {
-			currentTime = System.nanoTime();
-			delta += (currentTime - lastTime) / drawInterval;
-			timer += (currentTime - lastTime);
-			lastTime = currentTime;
-
-			if (delta >= 1) {
-				update();
-				drawToTempScreen();
-				drawToScreen();
-				delta--;
-				drawCount++;
-			}
-
-			if (timer >= 1000000000) {
-				// System.out.println("FPS: " + drawCount);
-				drawCount = 0;
-				timer = 0;
-			}
-		}
-	}
 
 	public void update() {
 		if (gameState == playState) {
@@ -321,5 +307,36 @@ public class GamePanel extends JPanel implements Runnable {
 	public void playSE(int i) {
 		se.setFile(i);
 		se.play();
+	}
+
+	@Override
+	public void run() {
+		double drawInterval = 1000000000 / FPS;
+		double delta = 0;
+		long lastTime = System.nanoTime();
+		long currentTime;
+		long timer = 0;
+		int drawCount = 0;
+
+		while (gameThread != null) {
+			currentTime = System.nanoTime();
+			delta += (currentTime - lastTime) / drawInterval;
+			timer += (currentTime - lastTime);
+			lastTime = currentTime;
+
+			if (delta >= 1) {
+				update();
+				drawToTempScreen();
+				drawToScreen();
+				delta--;
+				drawCount++;
+			}
+
+			if (timer >= 1000000000) {
+				// System.out.println("FPS: " + drawCount);
+				drawCount = 0;
+				timer = 0;
+			}
+		}
 	}
 }
