@@ -13,14 +13,17 @@ import principal.UtiliyTool;
 public class TileManeger {
 	GamePanel gp;
 	public Tile[] tile;
-	public int mapTileNum[][];
+	public int mapTileNum[][][];
 
 	public TileManeger(GamePanel gp) {
 		this.gp = gp;
 		tile = new Tile[200];
-		mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+		mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 		getTileImage();
-		loadMap("/maps/mapV2.txt");
+		loadMap("/maps/mapV2.txt",0);
+		loadMap("/maps/interior01.txt",1);
+		loadMap("/maps/dangeon1.txt",2);
+		loadMap("/maps/dangeon2.txt",3);
 	}
 
 	public void getTileImage() {
@@ -233,7 +236,7 @@ public class TileManeger {
 		}
 	}
 
-	public void loadMap(String mapName) {
+	public void loadMap(String mapName, int map) {
 		try {
 			InputStream is = getClass().getResourceAsStream(mapName);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -249,7 +252,7 @@ public class TileManeger {
 
 					int num = Integer.parseInt(numbers[col]);
 
-					mapTileNum[col][row] = num;
+					mapTileNum[map][col][row] = num;
 					col++;
 				}
 				if (col == gp.maxWorldCol) {
@@ -269,7 +272,7 @@ public class TileManeger {
 		int worldRow = 0;
 
 		while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
-			int tileNum = mapTileNum[worldCol][worldRow];
+			int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
 
 			// Verificação nula adicionada
 			if (tile[tileNum] != null && tile[tileNum].image != null) {
