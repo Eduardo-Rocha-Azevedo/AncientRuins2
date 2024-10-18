@@ -20,80 +20,84 @@ public class AssetSetter {
 
 	public void setObject() {
 		int i = 0;
-		gp.obj[i] = new OBJ_Coin_Broze(gp);
-		gp.obj[i].worldX = gp.tileSize * 25;
-		gp.obj[i].worldY = gp.tileSize * 23;
+		int mapNum = 0;
+		gp.obj[mapNum][i] = new OBJ_Coin_Broze(gp);
+		gp.obj[mapNum][i].worldX = gp.tileSize * 25;
+		gp.obj[mapNum][i].worldY = gp.tileSize * 23;
 		i++;
 
-		gp.obj[i] = new OBJ_Axe(gp);
-		gp.obj[i].worldX = gp.tileSize * 31;
-		gp.obj[i].worldY = gp.tileSize * 21;
+		gp.obj[mapNum][i] = new OBJ_Axe(gp);
+		gp.obj[mapNum][i].worldX = gp.tileSize * 31;
+		gp.obj[mapNum][i].worldY = gp.tileSize * 21;
 		i++;
 
-		gp.obj[i] = new OBJ_Shield_Blue(gp);
-		gp.obj[i].worldX = gp.tileSize * 37;
-		gp.obj[i].worldY = gp.tileSize * 21;
+		gp.obj[mapNum][i] = new OBJ_Shield_Blue(gp);
+		gp.obj[mapNum][i].worldX = gp.tileSize * 37;
+		gp.obj[mapNum][i].worldY = gp.tileSize * 21;
 		i++;
 
-		gp.obj[i] = new OBJ_Potion_Red(gp);
-		gp.obj[i].worldX = gp.tileSize * 21;
-		gp.obj[i].worldY = gp.tileSize * 23;
+		gp.obj[mapNum][i] = new OBJ_Potion_Red(gp);
+		gp.obj[mapNum][i].worldX = gp.tileSize * 21;
+		gp.obj[mapNum][i].worldY = gp.tileSize * 23;
 		i++;
 	}
 
 	public void setNPC() {
 		int i = 0;
-		gp.npc[i] = new NPC_OldMan(gp);
-		gp.npc[i].worldX = gp.tileSize * 21;
-		gp.npc[i].worldY = gp.tileSize * 21;
+		int mapNum = 0;
+		gp.npc[mapNum][i] = new NPC_OldMan(gp);
+		gp.npc[mapNum][i].worldX = gp.tileSize * 21;
+		gp.npc[mapNum][i].worldY = gp.tileSize * 21;
 		i++;
 
-		gp.npc[i] = new NPC_Farmer(gp);
-		gp.npc[i].worldX = gp.tileSize * 14;
-		gp.npc[i].worldY = gp.tileSize * 63;
+		gp.npc[mapNum][i] = new NPC_Farmer(gp);
+		gp.npc[mapNum][i].worldX = gp.tileSize * 14;
+		gp.npc[mapNum][i].worldY = gp.tileSize * 63;
 		
 	}
 
 	public void setMonster() {
 		    //Slime ===================================
 			int i = 0;
-			gp.monster[i] = new MON_GreenSlime(gp);
-			gp.monster[i].worldX = gp.tileSize*23;
-			gp.monster[i].worldY = gp.tileSize*23;
+			int mapNum = 0;
+			gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+			gp.monster[mapNum][i].worldX = gp.tileSize*23;
+			gp.monster[mapNum][i].worldY = gp.tileSize*23;
 			i++;
 	
-			gp.monster[i] = new MON_GreenSlime(gp);
-			gp.monster[i].worldX = gp.tileSize*23;
-			gp.monster[i].worldY = gp.tileSize*38;
+			gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+			gp.monster[mapNum][i].worldX = gp.tileSize*23;
+			gp.monster[mapNum][i].worldY = gp.tileSize*38;
 			i++;
 	
-			gp.monster[i] = new MON_GreenSlime(gp);
-			gp.monster[i].worldX = gp.tileSize*23;
-			gp.monster[i].worldY = gp.tileSize*35;
+			gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+			gp.monster[mapNum][i].worldX = gp.tileSize*23;
+			gp.monster[mapNum][i].worldY = gp.tileSize*35;
 			i++;
 	
-			gp.monster[i] = new MON_GreenSlime(gp);
-			gp.monster[i].worldX = gp.tileSize*20;
-			gp.monster[i].worldY = gp.tileSize*36;
+			gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+			gp.monster[mapNum][i].worldX = gp.tileSize*20;
+			gp.monster[mapNum][i].worldY = gp.tileSize*36;
 			i++;
 	
-			gp.monster[i] = new MON_GreenSlime(gp);
-			gp.monster[i].worldX = gp.tileSize*22;
-			gp.monster[i].worldY = gp.tileSize*36;
+			gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+			gp.monster[mapNum][i].worldX = gp.tileSize*22;
+			gp.monster[mapNum][i].worldY = gp.tileSize*36;
 			i++;
 	
-			gp.monster[i] = new MON_GreenSlime(gp);
-			gp.monster[i].worldX = gp.tileSize*23;
-			gp.monster[i].worldY = gp.tileSize*36;
+			gp.monster[mapNum][i] = new MON_GreenSlime(gp);
+			gp.monster[mapNum][i].worldX = gp.tileSize*23;
+			gp.monster[mapNum][i].worldY = gp.tileSize*36;
 			i++;
 		}
 	public void setInteractiveTile(){
 		int i = 0;
-		gp.iTile[i] = new IT_DryTree(gp, 27,12);i++;
-		gp.iTile[i] = new IT_DryTree(gp, 28,12);i++;
-		gp.iTile[i] = new IT_DryTree(gp, 29,12);i++;
-		gp.iTile[i] = new IT_DryTree(gp, 30,12);i++;
-		gp.iTile[i] = new IT_DryTree(gp, 31,12);i++;
+		int mapNum = 0;
+		gp.iTile[mapNum][i] = new IT_DryTree(gp, 27,12);i++;
+		gp.iTile[mapNum][i] = new IT_DryTree(gp, 28,12);i++;
+		gp.iTile[mapNum][i] = new IT_DryTree(gp, 29,12);i++;
+		gp.iTile[mapNum][i] = new IT_DryTree(gp, 30,12);i++;
+		gp.iTile[mapNum][i] = new IT_DryTree(gp, 31,12);i++;
 	
 	}
 }
