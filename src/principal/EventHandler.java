@@ -1,11 +1,14 @@
 package principal;
 
+import entity.Entity;
+
 public class EventHandler {
     GamePanel gp;
     EventRect eventRect[][][];
 
     int previousEventX, previousEventY;
     boolean canTouchEvent = true;
+    int tempMap, tempCol, tempRow;
 
     public EventHandler(GamePanel gp) {
         this.gp = gp;
@@ -50,7 +53,7 @@ public class EventHandler {
             if (hit(0, 23, 12, "up") == true) {healingPool(23, 12, gp.dialogueState); }
             else if(hit(0, 10, 39,"any")== true) {teleport(1, 12,13);}
             else if(hit(1, 12, 13,"any")== true) {teleport(0, 10,39);}
-                
+            else if(hit(1,12,9,"any") == true){speak(gp.npc[1][0]);}
             }   
            
         }
@@ -105,12 +108,29 @@ public class EventHandler {
     }
 
     public void teleport(int map, int col, int row){
+        gp.gameState = gp.transitionState;
         gp.currentMap = map;
-        gp.player.worldX = gp.tileSize * col;
-        gp.player.worldY = gp.tileSize * row;
-        previousEventX = gp.player.worldX;
-        previousEventY = gp.player.worldY;
+        tempMap = map;
+        tempCol = col;
+        tempRow = row;
         canTouchEvent = false;
         gp.playSE(14);
     }
+
+    public void speak(Entity e) {
+        if (e == null) {
+            System.out.println("A entidade 'e' não foi inicializada antes de chamar speak.");
+        } else {
+            System.out.println("A entidade 'e' está inicializada: " + e);
+            speak(e);
+        }
+        
+        
+        if (gp.keyH.enterPressed) {
+            gp.gameState = gp.dialogueState;
+            gp.player.attackCanceled = true;
+            e.speak();
+        }
+    }
+    
 }

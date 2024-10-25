@@ -51,7 +51,7 @@ public class Player extends Entity {
 		/*worldX = gp.tileSize * 23;
 		worldY = gp.tileSize * 21;*/
 		worldX = gp.tileSize * 12;
-		worldY = gp.tileSize * 13;
+		worldY = gp.tileSize * 10;
 		speed = 4;
 		direction = "down";
 
@@ -78,7 +78,6 @@ public class Player extends Entity {
 	public void setDefultPosition(){
 		worldX = gp.tileSize * 23;
 		worldY = gp.tileSize * 21;
-		
 		direction = "down";
 	}
 	public void restoreLifeAndCosmo(){

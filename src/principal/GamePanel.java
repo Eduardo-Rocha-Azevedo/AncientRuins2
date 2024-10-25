@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int maxWorldCol = 250;
 	public final int maxWorldRow = 250;
 	public final int maxMap = 10; // if you want to add more maps, change this value
-	public int currentMap = 1;
+	public int currentMap = 0;
 	// Full Screen
 	int screenWidth2 = screenWidth;
 	int screenHeight2 = screenHeight;
@@ -76,6 +76,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int characterState = 4;
 	public final int optionState = 5;
 	public final int gameOverState = 6;
+	public final int transitionState = 7;
+	public final int tradeState = 8;
 
 	// constructor
 	public GamePanel() {
