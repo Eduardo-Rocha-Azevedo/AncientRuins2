@@ -56,6 +56,10 @@ public class KeyHandler implements KeyListener {
         else if (gp.gameState == gp.gameState) {
             gameOverState(code);
         }
+        // Trade State
+        else if (gp.gameState == gp.tradeState) {
+            tradeState(code);
+        }
 
     }
 
@@ -157,13 +161,21 @@ public class KeyHandler implements KeyListener {
         }
         // refresh the map
         if (code == KeyEvent.VK_R) {
-            switch(gp.currentMap){
-                case 0: gp.tileM.loadMap("/maps/mapV2.txt",0);break;
-                case 1: gp.tileM.loadMap("/maps/interior01.txt",1);break;
-                case 2: gp.tileM.loadMap("/maps/dangeon1.txt",2);break;
-                case 3: gp.tileM.loadMap("/maps/dangeon2.txt",3);break;
+            switch (gp.currentMap) {
+                case 0:
+                    gp.tileM.loadMap("/maps/mapV2.txt", 0);
+                    break;
+                case 1:
+                    gp.tileM.loadMap("/maps/interior01.txt", 1);
+                    break;
+                case 2:
+                    gp.tileM.loadMap("/maps/dangeon1.txt", 2);
+                    break;
+                case 3:
+                    gp.tileM.loadMap("/maps/dangeon2.txt", 3);
+                    break;
             }
-           
+
         }
     }
 
@@ -276,31 +288,52 @@ public class KeyHandler implements KeyListener {
     }
 
     public void gameOverState(int code) {
-        if(code == KeyEvent.VK_W){
+        if (code == KeyEvent.VK_W) {
             gp.ui.commandNum--;
             gp.playSE(9);
-            if(gp.ui.commandNum < 0){
+            if (gp.ui.commandNum < 0) {
                 gp.ui.commandNum = 1;
             }
         }
-        if(code == KeyEvent.VK_S){
+        if (code == KeyEvent.VK_S) {
             gp.ui.commandNum++;
             gp.playSE(9);
-            if(gp.ui.commandNum > 1){
+            if (gp.ui.commandNum > 1) {
                 gp.ui.commandNum = 0;
             }
         }
-        if(code == KeyEvent.VK_ENTER){
-            if(gp.ui.commandNum == 0){
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.ui.commandNum == 0) {
                 gp.gameState = gp.playState;
                 gp.retry();
                 gp.playMusic(12);
-            }
-            else if(gp.ui.commandNum == 1){
+            } else if (gp.ui.commandNum == 1) {
                 gp.gameState = gp.titleState;
                 gp.ui.titleScreenState = 0;
                 gp.restart();
 
+            }
+        }
+    }
+
+    public void tradeState(int code) {
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+        if (gp.ui.subState == 0) {
+            if (code == KeyEvent.VK_W) {
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 2;
+                }
+                gp.playSE(9);
+            }
+            if (code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+                gp.playSE(9);
             }
         }
     }

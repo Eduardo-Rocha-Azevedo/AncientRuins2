@@ -31,9 +31,10 @@ public class UI {
 	// inventory
 	public int slotCol = 0;
 	public int slotRow = 0;
-	public Entity npc;
+
 	ArrayList<String> message = new ArrayList<>();
 	ArrayList<Integer> messageCounter = new ArrayList<>();
+	public Entity npc;
 
 	public UI(GamePanel gp) {
 		this.gp = gp;
@@ -821,9 +822,15 @@ public class UI {
 
 	public void drawTradeScreen() {
 		switch (subState) {
-			case 0:trade_select();break;	
-			case 1:trade_buy();break;		
-			case 2:trade_sell();break;	
+			case 0:
+				trade_select();
+				break;
+			case 1:
+				trade_buy();
+				break;
+			case 2:
+				trade_sell();
+				break;
 		}
 		gp.keyH.enterPressed = false;
 	}
@@ -835,8 +842,27 @@ public class UI {
 		int x = gp.tileSize * 15;
 		int y = gp.tileSize * 4;
 		int width = gp.tileSize * 3;
-		int height = (int)(gp.tileSize * 3.5);
+		int height = (int) (gp.tileSize * 3.5);
 		drawSubWindow(x, y, width, height);
+
+		// Draw text
+		x += gp.tileSize;
+		y += gp.tileSize;
+		g2.drawString("Buy", x, y);
+		if (commandNum == 0) {
+			g2.drawString(">", x - gp.tileSize / 2, y);
+		}
+		y += gp.tileSize;
+		g2.drawString("Sell", x, y);
+		if (commandNum == 1) {
+			g2.drawString(">", x - gp.tileSize / 2, y);
+		}
+		y += gp.tileSize;
+		g2.drawString("Back", x, y);
+		if (commandNum == 2) {
+			g2.drawString(">", x - gp.tileSize / 2, y);
+		}
+
 	}
 
 	public void trade_buy() {
