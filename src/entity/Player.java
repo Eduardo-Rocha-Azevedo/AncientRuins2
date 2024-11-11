@@ -312,7 +312,7 @@ public class Player extends Entity {
 				} else {
 					text = "You cannot carry any more!";
 				}
-				gp.ui.addMassage(text);
+				gp.ui.addMessage(text);
 				gp.obj[gp.currentMap][i] = null;
 			}
 		}
@@ -357,15 +357,15 @@ public class Player extends Entity {
 					damage = 0;
 				}
 				gp.monster[gp.currentMap][i].life -= damage;
-				gp.ui.addMassage(damage + " damage to " + gp.monster[gp.currentMap][i].name);
+				gp.ui.addMessage(damage + " damage to " + gp.monster[gp.currentMap][i].name);
 				gp.monster[gp.currentMap][i].invincible = true;
 				gp.monster[gp.currentMap][i].damageReaction();
 
 				// Check if monster is dead and remove of list
 				if (gp.monster[gp.currentMap][i].life <= 0) {
 					gp.monster[gp.currentMap][i].dyain = true;
-					gp.ui.addMassage("Killed " + gp.monster[gp.currentMap][i].name + "!");
-					gp.ui.addMassage("EXP + " + gp.monster[gp.currentMap][i].exp);
+					gp.ui.addMessage("Killed " + gp.monster[gp.currentMap][i].name + "!");
+					gp.ui.addMessage("EXP + " + gp.monster[gp.currentMap][i].exp);
 					exp += gp.monster[gp.currentMap][i].exp;
 					checkLevelUp();
 
@@ -406,7 +406,7 @@ public class Player extends Entity {
 	}
 
 	public void selectItem() {
-		int itemIndex = gp.ui.getItemIndexOnSlot();
+		int itemIndex = gp.ui.getItemIndexOnSlot(gp.ui.playerSlotCol, gp.ui.playerSlotRow);
 
 		if (itemIndex < inventory.size()) {
 			Entity selectedItem = inventory.get(itemIndex);
@@ -415,13 +415,13 @@ public class Player extends Entity {
 				currentWeapon = selectedItem;
 				attack = getAttack();
 				getPlayerAttackImage();
-				gp.ui.addMassage("Equipped " + selectedItem.name);
+				gp.ui.addMessage("Equipped " + selectedItem.name);
 			}
 
 			if (selectedItem.type == type_shield) {
 				currentShield = selectedItem;
 				defense = getDefense();
-				gp.ui.addMassage("Equipped " + selectedItem.name);
+				gp.ui.addMessage("Equipped " + selectedItem.name);
 			}
 
 			if (selectedItem.type == type_consumable) {
