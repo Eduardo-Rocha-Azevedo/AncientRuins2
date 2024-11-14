@@ -21,7 +21,7 @@ public class OBJ_Heart extends Entity {
 
 	public void use(Entity entity) {
 		gp.playSE(2);
-		gp.ui.addMessage("Life + " + value);
+		gp.ui.addMassage("Life + " + value);
 		entity.life += value;
 
 	}

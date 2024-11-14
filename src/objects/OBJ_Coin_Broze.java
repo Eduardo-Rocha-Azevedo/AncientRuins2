@@ -17,7 +17,7 @@ public class OBJ_Coin_Broze extends Entity{
    
     public void use(Entity entity){
         gp.playSE(1);
-        gp.ui.addMessage("Coin + "+value);
+        gp.ui.addMassage("Coin + "+value);
         entity.coin += value;
     }
     

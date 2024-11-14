@@ -18,7 +18,7 @@ public class OBJ_CosmoCrystal extends Entity {
 
 	public void use(Entity entity) {
 		gp.playSE(2);
-		gp.ui.addMessage("Cosmo + " + value);
+		gp.ui.addMassage("Cosmo + " + value);
 		entity.cosmo += value;
 	}
 	
