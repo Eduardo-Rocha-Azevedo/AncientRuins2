@@ -81,7 +81,7 @@ public class EventHandler {
         eventRect[map][col][row].y =  eventRect[map][col][row].eventRectDefultY;
         }
        
-
+      
         return hit;
     }
 

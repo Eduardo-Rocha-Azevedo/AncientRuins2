@@ -1,7 +1,6 @@
 package entity;
 
 import java.awt.Rectangle;
-import java.util.Random;
 
 import objects.OBJ_Axe;
 import objects.OBJ_Key;
@@ -47,7 +46,6 @@ public class NPC_Merchant extends Entity {
 
     public void setItems(){
         inventory.add(new OBJ_Potion_Red(gp));
-        inventory.add(new OBJ_Key(gp));
         inventory.add(new OBJ_Shield_Wood(gp));
         inventory.add(new OBJ_Axe(gp));
     }

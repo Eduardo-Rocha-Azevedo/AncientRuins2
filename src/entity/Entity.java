@@ -76,6 +76,7 @@ public class Entity {
 	public int attackValue;
 	public int defenseValue;
 	public int useCost;
+	public int price;
 	
 	//state
 	public boolean collision = false;
