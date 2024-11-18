@@ -220,11 +220,8 @@ public class Entity {
 
 		spriteCouter++;
 		if (spriteCouter > 12) {
-			if (spriteNum == 1) {
-				spriteNum = 2;
-			} else if (spriteNum == 2) {
-				spriteNum = 1;
-			}
+			if (spriteNum == 1) {spriteNum = 2;}
+			else if (spriteNum == 2) {spriteNum = 1;}
 			spriteCouter = 0;
 		}
 
@@ -335,60 +332,36 @@ public class Entity {
 
 				case "down":
 					if (attacking == false) {
-						if (spriteNum == 1) {
-							image = down1;
-						}
-						if (spriteNum == 2) {
-							image = down2;
-						}
+						if (spriteNum == 1) {image = down1;}
+						if (spriteNum == 2) {image = down2;}
 					}
 					if (attacking == true) {
-						if (spriteNum == 1) {
-							image = attackDown1;
-						}
-						if (spriteNum == 2) {
-							image = attackDown2;
-						}
+						if (spriteNum == 1) {image = attackDown1;}
+						if (spriteNum == 2) {image = attackDown2;}
 					}
 					break;
 
 				case "left":
 					if (attacking == false) {
 
-						if (spriteNum == 1) {
-							image = left1;
-						}
-						if (spriteNum == 2) {
-							image = left2;
-						}
+						if (spriteNum == 1) {image = left1;}
+						if (spriteNum == 2) {image = left2;}
 					}
 					if (attacking == true) {
 						tempScreenX = screenX - gp.tileSize;
-						if (spriteNum == 1) {
-							image = attackLeft1;
-						}
-						if (spriteNum == 2) {
-							image = attackLeft2;
-						}
+						if (spriteNum == 1) {image = attackLeft1;}
+						if (spriteNum == 2) {image = attackLeft2;}
 					}
 					break;
 
 				case "right":
 					if (attacking == false) {
-						if (spriteNum == 1) {
-							image = right1;
-						}
-						if (spriteNum == 2) {
-							image = right2;
-						}
+						if (spriteNum == 1) {image = right1;}
+						if (spriteNum == 2) {image = right2;}
 					}
 					if (attacking == true) {
-						if (spriteNum == 1) {
-							image = attackRight1;
-						}
-						if (spriteNum == 2) {
-							image = attackRight2;
-						}
+						if (spriteNum == 1) {image = attackRight1;}
+						if (spriteNum == 2) {image = attackRight2;}
 					}
 					break;
 			}
@@ -453,36 +426,15 @@ public class Entity {
 
 		int i = 5;
 
-		if (dyainCounter <= i) {
-			changeAlpha(g2, 0f);
-		}
-		if (dyainCounter > i && dyainCounter <= i * 2) {
-			changeAlpha(g2, 1f);
-		}
-		if (dyainCounter > i * 2 && dyainCounter <= i * 3) {
-			changeAlpha(g2, 0f);
-		}
-		if (dyainCounter > i * 3 && dyainCounter <= i * 4) {
-			changeAlpha(g2, 1f);
-		}
-		if (dyainCounter > i * 4 && dyainCounter <= i * 5) {
-			changeAlpha(g2, 0f);
-		}
-		if (dyainCounter > i * 5 && dyainCounter <= i * 6) {
-			changeAlpha(g2, 1f);
-		}
-		if (dyainCounter > i * 6 && dyainCounter <= i * 7) {
-			changeAlpha(g2, 0f);
-		}
-		if (dyainCounter > i * 7 && dyainCounter <= i * 8) {
-			changeAlpha(g2, 1f);
-		}
-
-		if (dyainCounter > i * 8) {
-			alive = false;
-
-		}
-
+		if (dyainCounter <= i) {changeAlpha(g2, 0f);}
+		if (dyainCounter > i && dyainCounter <= i * 2) {changeAlpha(g2, 1f);}
+		if (dyainCounter > i * 2 && dyainCounter <= i * 3) {changeAlpha(g2, 0f);}
+		if (dyainCounter > i * 3 && dyainCounter <= i * 4) {changeAlpha(g2, 1f);}
+		if (dyainCounter > i * 4 && dyainCounter <= i * 5) {changeAlpha(g2, 0f);}
+		if (dyainCounter > i * 5 && dyainCounter <= i * 6) {changeAlpha(g2, 1f);}
+		if (dyainCounter > i * 6 && dyainCounter <= i * 7) {changeAlpha(g2, 0f);}
+		if (dyainCounter > i * 7 && dyainCounter <= i * 8) {changeAlpha(g2, 1f);}
+		if (dyainCounter > i * 8) {alive = false;}
 	}
 
 	public void changeAlpha(Graphics2D g2, float alphaValue) {

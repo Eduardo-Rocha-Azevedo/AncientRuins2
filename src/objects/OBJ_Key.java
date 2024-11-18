@@ -1,8 +1,5 @@
 package objects;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
 import entity.Entity;
 import principal.GamePanel;
 

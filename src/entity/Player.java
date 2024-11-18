@@ -4,9 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import objects.OBJ_Axe;
 import objects.OBJ_Fireball;
-import objects.OBJ_Key;
 import objects.OBJ_Shield_Wood;
 import objects.OBJ_Sword_Normal;
 import principal.GamePanel;
@@ -147,15 +145,10 @@ public class Player extends Entity {
 		} else if (keyH.up == true || keyH.down == true ||
 				keyH.left == true || keyH.right == true || keyH.enterPressed == true) {
 
-			if (keyH.up == true) {
-				direction = "up";
-			} else if (keyH.down == true) {
-				direction = "down";
-			} else if (keyH.left == true) {
-				direction = "left";
-			} else if (keyH.right == true) {
-				direction = "right";
-			}
+			if (keyH.up == true) {direction = "up";} 
+			else if (keyH.down == true) {direction = "down";}	
+			else if (keyH.left == true) {direction = "left";}	
+			else if (keyH.right == true) {direction = "right";}
 
 			// CHECK TILE COLLISION
 			collisioOn = false;
@@ -182,10 +175,10 @@ public class Player extends Entity {
 			//IF COLLISION IS FALSE, PLAYER CAN MOVE
 			if(collisioOn == false && keyH.enterPressed == false){
 				switch(direction){
-					case "up":worldY -= speed;break;
-					case "down":worldY += speed;break;
-					case "left":worldX -= speed;break;
-					case "right":worldX += speed;break;
+					case "up"   : worldY -= speed; break;
+					case "down" : worldY += speed; break;
+					case "left" : worldX -= speed; break;
+					case "right": worldX += speed; break;
 				}
 			
 			}
@@ -287,13 +280,8 @@ public class Player extends Entity {
 			spriteCouter = 0;
 			attacking = false;
 		}
-		if(life > maxLife){
-            life = maxLife;
-        }
-		if(cosmo > maxCosmo){
-			cosmo = maxCosmo;
-		}
-		
+		if(life > maxLife){life = maxLife;}
+		if(cosmo > maxCosmo){cosmo = maxCosmo;}
 	}
 
 	public void pickUpObject(int i) {

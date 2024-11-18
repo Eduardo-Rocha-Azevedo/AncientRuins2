@@ -1,7 +1,5 @@
 package entity;
 
-import java.util.Random;
-
 import principal.GamePanel;
 
 public class NPC_OldMan extends Entity {
@@ -48,22 +46,11 @@ public class NPC_OldMan extends Entity {
 
 	public void setAction() {
 		if (onPath == true) {
-			int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
+			int goalCol = 12;
+            int goalRow = 9;
 			searchPath(goalCol, goalRow);
 		} 
-		else {
-			actionLockCounter++;
-			if (actionLockCounter == 120) {
-				Random random = new Random();
-				int i = random.nextInt(100) + 1;
+		else {getRandomDirection(120);}
 
-				if (i <= 25) {direction = "up";}
-				if (i > 25 && i <= 50) {direction = "down";}
-				if (i > 50 && i <= 75) {direction = "left";}		
-				if (i > 75) {direction = "right";}
-				actionLockCounter = 0;
-			}
-		}
 	}
 }
