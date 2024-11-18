@@ -2,6 +2,7 @@ package principal;
 
 import javax.swing.JPanel;
 
+import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import tile.TileManeger;
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int maxWorldCol = 250;
 	public final int maxWorldRow = 250;
 	public final int maxMap = 10; // if you want to add more maps, change this value
-	public int currentMap = 1;
+	public int currentMap = 0;
 	// Full Screen
 	int screenWidth2 = screenWidth;
 	int screenHeight2 = screenHeight;
@@ -56,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Thread gameThread;
 	public EventHandler eHandler = new EventHandler(this);
 	Config config = new Config(this);
+	public PathFinder pFinder = new PathFinder(this);
 
 	// ENTITY AND OBJECTS
 	public Player player = new Player(this, keyH);
@@ -63,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity obj[][] = new Entity[maxMap][10];
 	public Entity monster[][] = new Entity[maxMap][20];
 	public InteractiveTile iTile[][] = new InteractiveTile[maxMap][80];
+	public Entity projectile[][] = new Entity[maxMap][20];
 	public ArrayList<Entity> projectileList = new ArrayList<>();
 	public ArrayList<Entity> particleList = new ArrayList<>();
 	ArrayList<Entity> entityList = new ArrayList<>();
