@@ -211,8 +211,14 @@ public class Player extends Entity {
 
 			// subtract resources
 			projectile.subtractResource(this);
-			// add projectile to the list
-			gp.projectileList.add(projectile);
+			// CHECK VACANCY
+			for (int i = 0; i < gp.projectile[gp.currentMap].length; i++) {
+				if (gp.projectile[gp.currentMap][i] == null) {
+					gp.projectile[gp.currentMap][i] = projectile;
+					break;
+				}
+			}
+			
 			shotAvailableCounter = 0;
 			gp.playSE(10);
 		}
@@ -253,10 +259,10 @@ public class Player extends Entity {
 
 			// Adjust player's wordX/Y for the attack
 			switch(direction){
-				case "up": worldX -= attackArea.height;break;
-				case "down": worldX += attackArea.height;break;
-				case "left": worldY -= attackArea.width;break;
-				case "right": worldY += attackArea.width;break;
+				case "up"    : worldX -= attackArea.height; break;
+				case "down"  : worldX += attackArea.height; break;
+				case "left"  : worldY -= attackArea.width;  break;
+				case "right" : worldY += attackArea.width;  break;
 			}
 			// attackArea becomes solidArea
 			solidArea.width = attackArea.width;
@@ -268,6 +274,9 @@ public class Player extends Entity {
 
 			int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
 			damageInteractiveTile(iTileIndex);
+
+			int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+			damageProjectile(projectileIndex);
 
 			// After attack, reset player's worldX/Y and solidArea
 			worldX = currentWorldX;
@@ -377,6 +386,13 @@ public class Player extends Entity {
 			}
 		}
 	}
+	public void damageProjectile(int i){
+		if(i != 999){
+			Entity projectile = gp.projectile[gp.currentMap][i];
+			projectile.alive = false;
+			generateParticle(projectile, projectile);
+		}
+	}
 	public void checkLevelUp() {
 		if (exp >= nextLevelExp) {
 			level++;
@@ -392,7 +408,6 @@ public class Player extends Entity {
 			gp.ui.currentDialog = "You're level " + level + " now!\n" + "You feeel stronger!";
 		}
 	}
-
 	public void selectItem() {
 		int itemIndex = gp.ui.getItemIndexOnSlot();
 

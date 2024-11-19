@@ -12,26 +12,25 @@ import principal.GamePanel;
 public class MON_GreenSlime extends Entity{
     public MON_GreenSlime(GamePanel gp){
         super(gp);
-
         type = type_monster;
-        name = "Slime Verde";
-        defaultSpeed = 1;
-        speed = defaultSpeed;
-        maxLife = 4;
-        life = maxLife;
-       
-        attack = 2;
-        defense = 0;
-        exp = 2;
+       name = "Slime Vermelho";
+       defaultSpeed = 1;
+       speed = defaultSpeed;
+       maxLife = 7;
+       life = maxLife;
+       projectile = new OBJ_Rock(gp);
+       attack = 2;
+       defense = 0;
+       exp = 5;
 
-        solidArea.x = 3;
-        solidArea.y = 18;
-        solidArea.width = 42;
-        solidArea.height = 30;
-        solidAreaDefultX = solidArea.x;
-        solidAreaDefultY = solidArea.y;
+       solidArea.x = 3;
+       solidArea.y = 18;
+       solidArea.width = 42;
+       solidArea.height = 30;
+       solidAreaDefultX = solidArea.x;
+       solidAreaDefultY = solidArea.y;
 
-        getImage();
+       getImage();
     }
 
     public void getImage(){
@@ -45,9 +44,10 @@ public class MON_GreenSlime extends Entity{
         right2 = setup("/monster/greenslime_down_2", gp.tileSize, gp.tileSize);
     }
 
-    //IA A* PathFinder
-    public void setAction(){
-    
+  
+
+     //IA A* PathFinder
+     public void setAction(){
         if(onPath == true){
             //Check if it stops chasing
             checkStopChassingOrNot(gp.player, 10, 100);
@@ -56,14 +56,13 @@ public class MON_GreenSlime extends Entity{
 			searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
 
             // Check if it shoots a projectile
-           // checkShootOrNot(200, 30);  
+            checkShootOrNot(200, 30);
         }
         else{
             checkStartChasingOrNOt(gp.player, 5, 100);
             // Get a random direction
             getRandomDirection(120);
-        } 
-        
+        }   
     }
 
     public void damageReaction(){
@@ -71,6 +70,7 @@ public class MON_GreenSlime extends Entity{
        //direction = gp.player.direction;
        onPath = true;
     }
+
 
     public void checkDrop(){
         //CAST A DIE
