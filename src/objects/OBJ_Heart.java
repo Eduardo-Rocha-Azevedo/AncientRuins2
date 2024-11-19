@@ -4,7 +4,7 @@ import entity.Entity;
 import principal.GamePanel;
 
 public class OBJ_Heart extends Entity {
-	GamePanel gp;
+	
 	public static final String objName = "Heart";
 
 	public OBJ_Heart(GamePanel gp) {
