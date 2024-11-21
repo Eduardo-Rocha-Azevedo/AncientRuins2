@@ -37,6 +37,7 @@ public class Entity {
 	int dyainCounter = 0;
 	int hpBarCounter = 0;
 	public int shotAvailabelCounter = 0;
+	public int knockBackCounter = 0;
 
 	// COLLISION
 	public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
@@ -48,9 +49,9 @@ public class Entity {
 	public String description = "";
 
 	// CHARACTER STATUS
+	public String name;
 	public int maxLife;
 	public int life;
-	public String name;
 	public int defaultSpeed;
 	public int speed;
 	public int level;
@@ -74,7 +75,7 @@ public class Entity {
 	public int motion1_duration;
 	public int motion2_duration;
 	public boolean boss = false;
-	
+	public int knockBackPower = 0;
 
 	// ITEM ATTRIBUTES
 	public int attackValue;
@@ -88,6 +89,7 @@ public class Entity {
 	public boolean dyain = false;
 	boolean hpBarOn = false;
 	public boolean onPath = false;
+	public boolean knockBack = false;
 
 	// Type
 	public int type;
@@ -204,18 +206,43 @@ public class Entity {
 	}
 
 	public void update() {
-		setAction();
-		checkCollision();
-
-		// IF COLLISION IS FALSE, PLAYER CAN MOVE
-		if (collisioOn == false) {
-			switch (direction) {
-				case "up"   : worldY -= speed; break;
-				case "down" : worldY += speed; break;
-				case "left" : worldX -= speed; break;
-				case "right": worldX += speed; break;	
+		if(knockBack == true){
+			checkCollision();
+			if(collisioOn == true){
+				knockBackCounter = 0;
+				knockBack = false;
+				speed = defaultSpeed;
+			}
+			else if(collisioOn == false){
+				switch(gp.player.direction){
+					case "up": worldX -= attackArea.height;break;
+					case "down": worldX += attackArea.height;break;
+					case "left": worldY -= attackArea.width;break;
+					case "right": worldY += attackArea.width;break;
+				}
+				knockBackCounter++;
+				if(knockBackCounter == 10){
+					knockBack = false;
+					knockBackCounter = 0;
+					speed = defaultSpeed;
+				}
 			}
 		}
+		else{
+			setAction();
+			checkCollision();
+
+			// IF COLLISION IS FALSE, PLAYER CAN MOVE
+			if (collisioOn == false) {
+				switch (direction) {
+					case "up"   : worldY -= speed; break;
+					case "down" : worldY += speed; break;
+					case "left" : worldX -= speed; break;
+					case "right": worldX += speed; break;	
+				}
+			}
+		}
+		
 
 		spriteCouter++;
 		if (spriteCouter > 12) {
@@ -256,7 +283,7 @@ public class Entity {
 	
 		if (i == 0 && !projectile.alive && shotAvailabelCounter >= shotInterval) {
 			projectile.set(worldX, worldY, direction, true, this);
-			gp.projectileList.add(projectile);
+			//gp.projectileList.add(projectile);
 	
 			// Verifica se há espaço no array de projéteis
 			for (int j = 0; j < gp.projectile[1].length; j++) {
