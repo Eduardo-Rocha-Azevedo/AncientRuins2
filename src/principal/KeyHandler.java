@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    public boolean up, down, left, right, enterPressed, spacePressed, shotKeyPressed;
+    public boolean up, down, left, right, enterPressed, spacePressed, shotKeyPressed, gravityEffect;
     boolean showDebugText = false;
     public GamePanel gp;
 
@@ -146,6 +146,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_F) {
             shotKeyPressed = true;
         }
+        if (code == KeyEvent.VK_G) {
+            gravityEffect = true;
+            
+        }
 
         if (code == KeyEvent.VK_ESCAPE) {
             gp.gameState = gp.optionState;
@@ -163,7 +167,7 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_R) {
             switch (gp.currentMap) {
                 case 0:
-                    gp.tileM.loadMap("/maps/mapV2.txt", 0);
+                    gp.tileM.loadMap("/maps/mapa.txt", 0);
                     break;
                 case 1:
                     gp.tileM.loadMap("/maps/interior01.txt", 1);
