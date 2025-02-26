@@ -40,7 +40,7 @@ public class OBJ_Fireball extends Projectile{
     }
 
     public void subtractResource(Entity user){
-        user.cosmo -= useCost;
+       // user.cosmo -= useCost;
        
     }
 
