@@ -235,17 +235,6 @@ public class Entity {
 	}
 
 	public void update() {
-		if (magicCooldownCounter < 30) {
-			magicCooldownCounter++;  // Incrementa o contador de cooldown
-		} else {
-			canCastMagic = true;  // A magia pode ser lançada novamente após o cooldown
-		}
-	
-		// Verifica se a magia foi lançada (dependendo de um evento ou tecla)
-		if (gp.keyH.spacePressed && canCastMagic) {
-			castMagic();  // Lança a magia
-		}
-	
 		if (knockBack == true) {
 			checkCollision();
 			if (collisioOn == true) {
@@ -254,18 +243,10 @@ public class Entity {
 				speed = defaultSpeed;
 			} else if (collisioOn == false) {
 				switch (gp.player.direction) {
-					case "up":
-						worldX -= attackArea.height;
-						break;
-					case "down":
-						worldX += attackArea.height;
-						break;
-					case "left":
-						worldY -= attackArea.width;
-						break;
-					case "right":
-						worldY += attackArea.width;
-						break;
+					case "up"   : worldX -= attackArea.height; break;
+					case "down" : worldX += attackArea.height; break;
+					case "left" : worldY -= attackArea.width;  break;
+					case "right": worldY += attackArea.width;  break;
 				}
 				knockBackCounter++;
 				if (knockBackCounter == 10) {
@@ -277,35 +258,22 @@ public class Entity {
 		} else {
 			setAction();
 			checkCollision();
-
 			// IF COLLISION IS FALSE, PLAYER CAN MOVE
 			if (collisioOn == false) {
 				switch (direction) {
-					case "up":
-						worldY -= speed;
-						break;
-					case "down":
-						worldY += speed;
-						break;
-					case "left":
-						worldX -= speed;
-						break;
-					case "right":
-						worldX += speed;
-						break;
+					case "up"    : worldY -= speed; break;
+					case "down"  : worldY += speed; break;
+					case "left"  : worldX -= speed; break;						
+					case "right" : worldX += speed; break;
 				}
 			}
 		}
 
 		spriteCouter++;
 		if (spriteCouter > 12) {
-			if (spriteNum == 1) {
-				spriteNum = 2;
-			} else if (spriteNum == 2) {
-				spriteNum = 1;
-			} else if (spriteNum == 3) {
-				spriteNum = 1;
-			}
+			if (spriteNum == 1) {spriteNum = 2;}
+			else if (spriteNum == 2) {spriteNum = 1;}
+			else if (spriteNum == 3) {spriteNum = 1;}
 			spriteCouter = 0;
 		}
 
@@ -364,18 +332,10 @@ public class Entity {
 			Random random = new Random();
 			int i = random.nextInt(100) + 1; // pick up a number from 1 to 100
 
-			if (i <= 25) {
-				direction = "up";
-			}
-			if (i > 25 && i <= 50) {
-				direction = "down";
-			}
-			if (i > 50 && i <= 75) {
-				direction = "left";
-			}
-			if (i > 75 && i <= 100) {
-				direction = "right";
-			}
+			if (i <= 25) {direction = "up";}
+			if (i > 25 && i <= 50) {direction = "down";}
+			if (i > 50 && i <= 75) {direction = "left";}
+			if (i > 75 && i <= 100) {direction = "right";}
 			actionLockCounter = 0;
 		}
 	}
@@ -397,18 +357,11 @@ public class Entity {
 
 			// Adjust player's wordX/Y for the attack
 			switch (direction) {
-				case "up":
-					worldX -= attackArea.height;
-					break;
-				case "down":
-					worldX += attackArea.height;
-					break;
-				case "left":
-					worldY -= attackArea.width;
-					break;
-				case "right":
-					worldY += attackArea.width;
-					break;
+				case "up":worldX -= attackArea.height;break;
+				case "down":worldX += attackArea.height;break;
+				case "left":worldY -= attackArea.width;break;
+				case "right":worldY += attackArea.width;break;
+
 			}
 			// attackArea becomes solidArea
 			solidArea.width = attackArea.width;
@@ -450,34 +403,9 @@ public class Entity {
 			gp.playSE(6);
 			int damage = attack - gp.player.defense;
 
-			if (damage < 0) {
-				damage = 0;
-			}
+			if (damage < 0) {damage = 0;}
 			gp.player.life -= damage;
 			gp.player.invincible = true;
-		}
-
-	}
-	public void castMagic() {
-		// Verifique se o jogador tem mana suficiente
-		if (gp.player.cosmo >= magicCost && canCastMagic) {
-			// Subtraímos o custo de mana
-			gp.player.cosmo -= magicCost;
-	
-			// Cria o projétil da magia (como um tipo diferente de projétil)
-			magicProjectile.set(worldX, worldY, direction, true, this);
-	
-			// Adiciona o projétil no jogo
-			for (int i = 0; i < gp.projectile[1].length; i++) {
-				if (gp.projectile[gp.currentMap][i] == null) {
-					gp.projectile[gp.currentMap][i] = magicProjectile;
-					break;
-				}
-			}
-	
-			// Ativa o cooldown da magia
-			magicCooldownCounter = 0;
-			canCastMagic = false;
 		}
 	}
 	
@@ -488,10 +416,6 @@ public class Entity {
 		int screenY = worldY - gp.player.worldY + gp.player.screenY;
 		int tempScreenX = screenX;
 		int tempScreenY = screenY;
-		   // Desenha o projétil da magia
-		   if (magicProjectile != null && magicProjectile.alive) {
-			magicProjectile.draw(g2);  // Desenha o projétil de magia
-		}
 		if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
 				worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
 				worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
@@ -501,103 +425,55 @@ public class Entity {
 
 				case "up":
 					if (attacking == false) {
-						if (spriteNum == 1) {
-							image = up1;
-						}
-						if (spriteNum == 2) {
-							image = up2;
-						}
-						if (spriteNum == 3) {
-							image = up3;
-						}
+						if (spriteNum == 1) {image = up1;}
+						if (spriteNum == 2) {image = up2;}
+						if (spriteNum == 3) {image = up3;}			
 					}
 					if (attacking == true) {
 						tempScreenY = screenY - gp.tileSize;
-						if (spriteNum == 1) {
-							image = attackUp1;
-						}
-						if (spriteNum == 2) {
-							image = attackUp2;
-						}
-						if (spriteNum == 3) {
-							image = attackUp3;
-						}
+						if (spriteNum == 1) {image = attackUp1;}
+						if (spriteNum == 2) {image = attackUp2;}
+						if (spriteNum == 3) {image = attackUp3;}
 					}
 					break;
 
 				case "down":
 					if (attacking == false) {
-						if (spriteNum == 1) {
-							image = down1;
-						}
-						if (spriteNum == 2) {
-							image = down2;
-						}
-						if (spriteNum == 3) {
-							image = down3;
-						}
+						if (spriteNum == 1) {image = down1;}
+						if (spriteNum == 2) {image = down2;}
+						if (spriteNum == 3) {image = down3;}
 					}
 					if (attacking == true) {
-						if (spriteNum == 1) {
-							image = attackDown1;
-						}
-						if (spriteNum == 2) {
-							image = attackDown2;
-						}
-						if (spriteNum == 3) {
-							image = attackDown3;
-						}
+						if (spriteNum == 1) {image = attackDown1;}
+						if (spriteNum == 2) {image = attackDown2;}
+						if (spriteNum == 3) {image = attackDown3;}
 					}
 					break;
 
 				case "left":
 					if (attacking == false) {
-						if (spriteNum == 1) {
-							image = left1;
-						}
-						if (spriteNum == 2) {
-							image = left2;
-						}
-						if (spriteNum == 3) {
-							image = left3;
-						}
+						if (spriteNum == 1) {image = left1;}
+						if (spriteNum == 2) {image = left2;}
+						if (spriteNum == 3) {image = left3;}
 					}
 					if (attacking == true) {
 						tempScreenX = screenX - gp.tileSize;
-						if (spriteNum == 1) {
-							image = attackLeft1;
-						}
-						if (spriteNum == 2) {
-							image = attackLeft2;
-						}
-						if (spriteNum == 3) {
-							image = attackLeft3;
-						}
+						if (spriteNum == 1) {image = attackLeft1;}
+						if (spriteNum == 2) {image = attackLeft2;}
+						if (spriteNum == 3) {image = attackLeft3;}
 					}
 					break;
 
 				case "right":
 					if (attacking == false) {
-						if (spriteNum == 1) {
-							image = right1;
-						}
-						if (spriteNum == 2) {
-							image = right2;
-						}
-						if (spriteNum == 3) {
-							image = right3;
-						}
+						if (spriteNum == 1) {image = right1;}
+						if (spriteNum == 2) {image = right2;}
+						if (spriteNum == 3) {image = right3;}
 					}
 					if (attacking == true) {
-						if (spriteNum == 1) {
-							image = attackRight1;
-						}
-						if (spriteNum == 2) {
-							image = attackRight2;
-						}
-						if (spriteNum == 3) {
-							image = attackRight3;
-						}
+						if (spriteNum == 1) {image = attackRight1;}
+						if (spriteNum == 2) {image = attackRight2;}
+						if (spriteNum == 3) {image = attackRight3;}
 					}
 					break;
 			}

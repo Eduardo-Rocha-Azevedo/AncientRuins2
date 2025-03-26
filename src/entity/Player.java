@@ -14,7 +14,7 @@ import principal.KeyHandler;
 public class Player extends Entity {
 
 	KeyHandler keyH;
-	OBJ_GravityBall gravityEffect;  // Efeito de gravidade
+	OBJ_GravityBall gravityEffect; // Efeito de gravidade
 	public final int screenX;
 	public final int screenY;
 	int standCounter = 0;
@@ -71,7 +71,6 @@ public class Player extends Entity {
 		currentWeapon = new OBJ_Sword_Normal(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
 		projectile = new OBJ_Fireball(gp);
-		
 
 		attack = getAttack();
 		defense = getDefense();
@@ -144,10 +143,14 @@ public class Player extends Entity {
 			if (keyH.up || keyH.down || keyH.left || keyH.right) {
 				moving = true;
 				// Define a direção do movimento
-				if (keyH.up) direction = "up";
-				else if (keyH.down) direction = "down";
-				else if (keyH.left) direction = "left";
-				else if (keyH.right) direction = "right";
+				if (keyH.up)
+					direction = "up";
+				else if (keyH.down)
+					direction = "down";
+				else if (keyH.left)
+					direction = "left";
+				else if (keyH.right)
+					direction = "right";
 
 				// Checa as colisões
 				collisioOn = false;
@@ -164,10 +167,10 @@ public class Player extends Entity {
 				// Se não houver colisão, o jogador pode se mover
 				if (!collisioOn) {
 					switch (direction) {
-						case "up": worldY -= speed; break;
-						case "down": worldY += speed; break;
-						case "left": worldX -= speed; break;
-						case "right": worldX += speed; break;
+						case "up":worldY -= speed;break;
+						case "down":worldY += speed;break;
+						case "left":worldX -= speed;break;
+						case "right":worldX += speed;break;
 					}
 				}
 			}
@@ -192,14 +195,28 @@ public class Player extends Entity {
 				attacking = true;
 				spriteCouter = 0;
 			}
-			
+
 		}
-		handleGravityEffect();
-		// Lógica de disparo de projéteis
-		if (gp.keyH.shotKeyPressed && !projectile.alive && shotAvailableCounter == 30 && projectile.haveResources(this)) {
+
+		// Check type of projectile
+		// PROJECTILE
+		if (gp.keyH.gravityEffect) {
+			handleGravityEffect();
+		} else if(gp.keyH.shotKeyPressed){
+			projectile = new OBJ_Fireball(gp);
+		}
+
+		// Lógica de disparo
+		if (gp.keyH.shotKeyPressed && projectile.alive == false && shotAvailableCounter == 30
+				&& projectile.haveResources(this)) {
+
+			// Define coordenadas, direção e usuário
 			projectile.set(worldX, worldY, direction, true, this);
+
+			// Subtrai os recursos necessários
 			projectile.subtractResource(this);
 
+			// Verifica um espaço disponível para armazenar o projétil no mapa
 			for (int i = 0; i < gp.projectile[gp.currentMap].length; i++) {
 				if (gp.projectile[gp.currentMap][i] == null) {
 					gp.projectile[gp.currentMap][i] = projectile;
@@ -225,51 +242,93 @@ public class Player extends Entity {
 			shotAvailableCounter++;
 		}
 	}
+
 	private void handleGravityEffect() {
-		// Só ativa o efeito se a tecla for pressionada e a habilidade não estiver ativa
-		if (keyH.gravityEffect && !specialAbilityActive && projectile.haveResources(this)) {
+		
+		if (gp.keyH.gravityEffect && !specialAbilityActive && shotAvailableCounter >= 30) {
 			specialAbilityActive = true;
-			specialAbilityCounter = 0; // Resetando o contador da habilidade
-			
-			// Dispara a GravityBall
-			OBJ_GravityBall gravityBall = new OBJ_GravityBall(gp);
-			gravityBall.set(worldX, worldY, direction, true, this);
-			gravityBall.subtractResource(this);
-			
-			// Encontrar o primeiro slot vazio para o projétil
-			for (int i = 0; i < gp.projectile[gp.currentMap].length; i++) {
-				if (gp.projectile[gp.currentMap][i] == null) {
-					gp.projectile[gp.currentMap][i] = gravityBall;
-					break;
+			specialAbilityCounter = 0;
+			gp.keyH.gravityEffect = false;
+	
+			OBJ_GravityBall newProjectile = new OBJ_GravityBall(gp);
+	
+			if (newProjectile.haveResources(this)) {
+				newProjectile.set(worldX, worldY, direction, true, this);
+				newProjectile.subtractResource(this);
+
+				for (int i = 0; i < gp.projectile[gp.currentMap].length; i++) {
+					if (gp.projectile[gp.currentMap][i] == null) {
+						gp.projectile[gp.currentMap][i] = newProjectile;
+						break;
+					}
 				}
+	
+				shotAvailableCounter = 0;
+				gp.playSE(10);
+
 			}
-			
-			gp.playSE(11);  // Som de disparo
 		}
 	
-		// Verifica se o efeito de gravidade expirou
+		// Contador para desativar a habilidade após 1 segundo (60 frames)
 		if (specialAbilityActive) {
 			specialAbilityCounter++;
-			if (specialAbilityCounter > 60) {  // A habilidade dura 1 segundo (60 frames)
-				specialAbilityActive = false;  // Desativa a habilidade
+			if (specialAbilityCounter > 60) { 
+				specialAbilityActive = false;
+				
 			}
 		}
 	}
 	
-	
-	
+
 	public void attacking() {
-		// Configuração de ataque
 		spriteCouter++;
-		if (spriteCouter > 15) {
-			spriteNum++;
-			if (spriteNum > 2) {
-				attacking = false;
-				spriteNum = 1;
-				attackCanceled = false;
-			}
-			spriteCouter = 0;
+
+		if (spriteCouter <= 5) {
+			spriteNum = 1;
 		}
+		if (spriteCouter > 5 && spriteCouter <= 25) {
+			spriteNum = 2;
+
+			// Save current position
+			int currentWorldX = worldX;
+			int currentWorldY = worldY;
+			int solidAreaWidth = solidArea.width;
+			int solidAreaHeight = solidArea.height;
+
+			// Adjust player's wordX/Y for the attack
+			switch(direction){
+				case "up"    : worldX -= attackArea.height; break;
+				case "down"  : worldX += attackArea.height; break;
+				case "left"  : worldY -= attackArea.width;  break;
+				case "right" : worldY += attackArea.width;  break;
+			}
+			// attackArea becomes solidArea
+			solidArea.width = attackArea.width;
+			solidArea.height = attackArea.height;
+
+			// check collision with the update worldX/Y and solidArea
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			damageMonster(monsterIndex, attack, currentWeapon.knockBackPower);
+
+			int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+			damageInteractiveTile(iTileIndex);
+
+			int projectileIndex = gp.cChecker.checkEntity(this, gp.projectile);
+			damageProjectile(projectileIndex);
+
+			// After attack, reset player's worldX/Y and solidArea
+			worldX = currentWorldX;
+			worldY = currentWorldY;
+			solidArea.width = solidAreaWidth;
+			solidArea.height = solidAreaHeight;
+		}
+		if (spriteCouter > 25) {
+			spriteNum = 1;
+			spriteCouter = 0;
+			attacking = false;
+		}
+		if(life > maxLife){life = maxLife;}
+		if(cosmo > maxCosmo){cosmo = maxCosmo;}
 	}
 
 	// Quando o jogador interage com NPCs
@@ -304,7 +363,7 @@ public class Player extends Entity {
 	}
 
 	// Atualização do impacto no monstro
-	
+
 	public void damageMonster(int i, int attack, int knockBackPower) {
 		if (i != 999) {
 
@@ -337,7 +396,6 @@ public class Player extends Entity {
 		}
 	}
 
-
 	public void pickUpObject(int i) {
 		if (i != 999) {
 			// PIck only items
@@ -358,6 +416,7 @@ public class Player extends Entity {
 			}
 		}
 	}
+
 	public void damageProjectile(int i) {
 		if (i != 999) {
 			Entity projectile = gp.projectile[gp.currentMap][i];
@@ -365,6 +424,7 @@ public class Player extends Entity {
 			generateParticle(projectile, projectile);
 		}
 	}
+
 	public void damageInteractiveTile(int i) {
 		if (i != 999 && gp.iTile[gp.currentMap][i].destructible == true &&
 				gp.iTile[gp.currentMap][i].isCorrectItem(this) == true &&
@@ -381,6 +441,7 @@ public class Player extends Entity {
 			}
 		}
 	}
+
 	public void knockBack(Entity entity, int knockBackPower) {
 		entity.direction = direction;
 		entity.speed += knockBackPower;
@@ -412,6 +473,7 @@ public class Player extends Entity {
 			}
 		}
 	}
+
 	public void checkLevelUp() {
 		if (exp >= nextLevelExp) {
 			level++;
@@ -433,72 +495,45 @@ public class Player extends Entity {
 		BufferedImage image = null;
 
 		switch (direction) {
-			case "up": 
+			case "up":
 				if (attacking) {
-					if (spriteNum == 1) {
-						image = attackUp1;
-					} else if (spriteNum == 2) {
-						image = attackUp2;
-					}
+					if (spriteNum == 1) {image = attackUp1;}
+					else if (spriteNum == 2) {image = attackUp2;}
 				} else {
-					if (spriteNum == 1) {
-						image = up1;
-					} else if (spriteNum == 2) {
-						image = up2;
-					} else if (spriteNum == 3) {
-						image = up3;
-					}
+					if (spriteNum == 1) {image = up1;}
+					else if (spriteNum == 2) {image = up2;}
+					else if (spriteNum == 3) {image = up3;}
 				}
 				break;
-			case "down": 
+			case "down":
 				if (attacking) {
-					if (spriteNum == 1) {
-						image = attackDown1;
-					} else if (spriteNum == 2) {
-						image = attackDown2;
-					}
+					if (spriteNum == 1) {image = attackDown1;}
+					 else if (spriteNum == 2) {image = attackDown2;}
 				} else {
-					if (spriteNum == 1) {
-						image = down1;
-					} else if (spriteNum == 2) {
-						image = down2;
-					} else if (spriteNum == 3) {
-						image = down3;
-					}
+					if (spriteNum == 1) {image = down1;}
+					else if (spriteNum == 2) {image = down2;}	
+					else if (spriteNum == 3) {image = down3;}
 				}
 				break;
-			case "left": 
+			case "left":
 				if (attacking) {
-					if (spriteNum == 1) {
-						image = attackLeft1;
-					} else if (spriteNum == 2) {
-						image = attackLeft2;
-					}
+					if (spriteNum == 1) {image = attackLeft1;}
+					else if (spriteNum == 2) {image = attackLeft2;}
 				} else {
-					if (spriteNum == 1) {
-						image = left1;
-					} else if (spriteNum == 2) {
-						image = left2;
-					} else if (spriteNum == 3) {
-						image = left3;
-					}
+					if (spriteNum == 1) {image = left1;}
+					else if (spriteNum == 2) {image = left2;}
+					else if (spriteNum == 3) {image = left3;}
 				}
 				break;
-			case "right": 
+			case "right":
 				if (attacking) {
-					if (spriteNum == 1) {
-						image = attackRight1;
-					} else if (spriteNum == 2) {
-						image = attackRight2;
-					}
+					if (spriteNum == 1) {image = attackRight1;}
+					else if (spriteNum == 2) {image = attackRight2;}
+
 				} else {
-					if (spriteNum == 1) {
-						image = right1;
-					} else if (spriteNum == 2) {
-						image = right2;
-					} else if (spriteNum == 3) {
-						image = right3;
-					}
+					if (spriteNum == 1) {image = right1;}
+					else if (spriteNum == 2) {image = right2;} 
+					else if (spriteNum == 3) {image = right3;}
 				}
 				break;
 		}
