@@ -267,18 +267,8 @@ public class Player extends Entity {
 				gp.playSE(10);
 
 			}
-		}
-	
-		// Contador para desativar a habilidade após 1 segundo (60 frames)
-		if (specialAbilityActive) {
-			specialAbilityCounter++;
-			if (specialAbilityCounter > 60) { 
-				specialAbilityActive = false;
-				
-			}
-		}
+		}	
 	}
-	
 
 	public void attacking() {
 		spriteCouter++;
