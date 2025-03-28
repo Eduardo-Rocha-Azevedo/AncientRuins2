@@ -2,17 +2,20 @@ package objects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-
+import java.awt.BasicStroke;
 import entity.Entity;
-import entity.GravityEffect;  // Importando a classe GravityEffect
+import entity.GravityExplosion;
 import entity.Projectile;
 import principal.GamePanel;
 
 public class OBJ_GravityBall extends Projectile {
-   
+
     public static final String objName = "GravityBall";
-    private GravityEffect gravityEffect; // A instância do efeito de gravidade
-    private boolean effectTriggered = false; // Para garantir que o efeito é acionado uma vez
+    
+    // Variáveis do efeito de círculo
+    private boolean effectActive = false;
+    private int effectTimer = 500; // Duração do efeito (frames)
+    private int alpha = 255; // Transparência do efeito
 
     public OBJ_GravityBall(GamePanel gp) {
         super(gp);
@@ -23,12 +26,13 @@ public class OBJ_GravityBall extends Projectile {
         useCost = 1;
         alive = false;
         knockBackPower = 1;
+        
         getImage();
     }
 
     public void getImage() {
-        up1 = setup("/projectile/fireball_up_1", gp.tileSize, gp.tileSize);
-        up2 = setup("/projectile/fireball_up_2", gp.tileSize, gp.tileSize);
+        up1 = setup("/projectile/gravity_up_1", gp.tileSize, gp.tileSize);
+        up2 = setup("/projectile/gravity_up_2", gp.tileSize, gp.tileSize);
         down1 = setup("/projectile/fireball_down_1", gp.tileSize, gp.tileSize);
         down2 = setup("/projectile/fireball_down_2", gp.tileSize, gp.tileSize);
         left1 = setup("/projectile/fireball_left_1", gp.tileSize, gp.tileSize);
@@ -38,56 +42,48 @@ public class OBJ_GravityBall extends Projectile {
     }
 
     public boolean haveResources(Entity user) {
-        boolean haveResources = false;
-        if (user.cosmo >= useCost) {
-            haveResources = true;
-        }
-        return haveResources;
+        return user.cosmo >= useCost;
     }
 
     public void subtractResource(Entity user) {
-        // user.cosmo -= useCost; // Subtrai os recursos necessários (se necessário)
+        // user.cosmo -= useCost;
     }
 
     public Color getParticleColor() {
-        Color color = new Color(240, 50, 0);
+        Color color = new Color(150,51,150);
         return color;
     }
+    public void update() {
+        // Atualiza a lógica do projétil
+        super.update();
 
-    public int getParticleSize() {
-        int size = 7; // pixels
-        return size;
-    }
-
-    public int getParticleSpeed() {
-        int speed = 1;
-        return speed;
-    }
-
-    public int getParticleMaxLife() {
-        int maxLife = 20;
-        return maxLife;
-    }
-
-    // Método para ser chamado quando o projétil "morre" ou atinge o destino
-    public void triggerGravityEffect(Entity target) {
-        if (!effectTriggered) {
-            // Criar o efeito de gravidade (tempo de vida de 5 segundos, raio de 100 pixels e força de 0.5)
-            gravityEffect = new GravityEffect(gp, target, 0.5, 100, 5);
-            effectTriggered = true; // Garantir que o efeito é acionado apenas uma vez
+      // Quando o projétil morre, cria o efeito de explosão
+        // Criar explosão ao morrer
+        if (!alive && !effectActive) {
+            effectActive = true;
+            gp.explosions.add(new GravityExplosion(gp, worldX, worldY));
         }
+        // Controla a duração do efeito de círculo
+        if (effectActive) {
+            effectTimer--;
+            alpha -= 8;  // Aumenta o decremento de transparência
+
+            // Quando o tempo do efeito acabar, desativa o efeito
+            if (effectTimer <= 0) {
+                effectActive = false;
+            }
+        }
+        
     }
 
-    
-    
-
-    // Método para desenhar a GravityBall e o efeito visual de gravidade
     public void draw(Graphics2D g2) {
-        super.draw(g2);  // Se necessário, chamar o método draw da classe mãe (Projectile)
-        
-        // Desenhar o efeito de gravidade se ele estiver ativo
-        if (gravityEffect != null) {
-            gravityEffect.draw(g2);
+        super.draw(g2);  // Desenha o projétil
+
+        // Se o efeito de círculo estiver ativo, desenha o círculo
+        if (effectActive) {
+            g2.setColor(new Color(0, 100, 255, Math.max(alpha, 0)));  // Cor azul com transparência
+            g2.setStroke(new BasicStroke(3));  // Define espessura do círculo
+            g2.drawOval(worldX + gp.tileSize/2,worldY + gp.tileSize/2, 32, 32);  // Desenha o círculo ao redor do projétil
         }
     }
 }

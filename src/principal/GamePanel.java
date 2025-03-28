@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import ai.PathFinder;
 import entity.Entity;
+import entity.GravityExplosion;
 import entity.Player;
 import tile.TileManeger;
 import tile_interactive.InteractiveTile;
@@ -68,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity projectile[][] = new Entity[maxMap][80];
 	public ArrayList<Entity> projectileList = new ArrayList<>();
 	public ArrayList<Entity> particleList = new ArrayList<>();
+	public ArrayList<GravityExplosion> explosions = new ArrayList<>();
 	ArrayList<Entity> entityList = new ArrayList<>();
 
 	// Game State
@@ -177,6 +179,14 @@ public class GamePanel extends JPanel implements Runnable {
 					}
 				}
 			}
+			// Atualiza as explosões
+			for (int i = 0; i < explosions.size(); i++) {
+				explosions.get(i).update();
+				if (!explosions.get(i).isActive()) {
+					explosions.remove(i); // Remove explosões concluídas
+					i--;
+				}
+			}
 
 			// PARTICLE
 			for (int i = 0; i < particleList.size(); i++) {
@@ -261,6 +271,11 @@ public class GamePanel extends JPanel implements Runnable {
 					entityList.add(particleList.get(i));
 				}
 			}
+			 // Desenha todas as explosões
+			 for (GravityExplosion explosion : explosions) {
+				explosion.draw(g2);
+			}
+		
 
 			//sort
 			Collections.sort(entityList, Comparator.comparingInt((Entity e) -> e.worldY)
