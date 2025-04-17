@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import entity.Entity;
-import entity.GravityExplosion;
+import entity.AreaExplosion;
 import entity.Projectile;
 import principal.GamePanel;
 
-public class OBJ_GravityBall extends Projectile {
+public class OBJ_GravityBall extends Projectile{
 
     public static final String objName = "GravityBall";
     
@@ -50,7 +50,7 @@ public class OBJ_GravityBall extends Projectile {
     }
 
     public Color getParticleColor() {
-        Color color = new Color(150,51,150);
+        Color color = new Color(198,115,255);
         return color;
     }
     public void update() {
@@ -61,8 +61,13 @@ public class OBJ_GravityBall extends Projectile {
         // Criar explosão ao morrer
         if (!alive && !effectActive) {
             effectActive = true;
-            gp.explosions.add(new GravityExplosion(gp, worldX, worldY));
+            int centerX = worldX + gp.tileSize / 2;
+            int centerY = worldY + gp.tileSize / 2;
+            gp.explosions.add(new AreaExplosion(gp, centerX, centerY, getParticleColor(), true));
+
+           
         }
+        
         // Controla a duração do efeito de círculo
         if (effectActive) {
             effectTimer--;
@@ -73,7 +78,6 @@ public class OBJ_GravityBall extends Projectile {
                 effectActive = false;
             }
         }
-        
     }
 
     public void draw(Graphics2D g2) {
@@ -81,7 +85,7 @@ public class OBJ_GravityBall extends Projectile {
 
         // Se o efeito de círculo estiver ativo, desenha o círculo
         if (effectActive) {
-            g2.setColor(new Color(0, 100, 255, Math.max(alpha, 0)));  // Cor azul com transparência
+            getParticleColor();  // Cor azul com transparência
             g2.setStroke(new BasicStroke(3));  // Define espessura do círculo
             g2.drawOval(worldX + gp.tileSize/2,worldY + gp.tileSize/2, 32, 32);  // Desenha o círculo ao redor do projétil
         }

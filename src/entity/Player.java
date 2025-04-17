@@ -105,18 +105,15 @@ public class Player extends Entity {
 	}
 
 	public void getImage() {
-		up1 = setup("/player/player_up_1", gp.tileSize, gp.tileSize * 2);
-		up2 = setup("/player/player_up_2", gp.tileSize, gp.tileSize * 2);
-		up3 = setup("/player/player_up_3", gp.tileSize, gp.tileSize * 2);
-		down1 = setup("/player/player_down_1", gp.tileSize, gp.tileSize * 2);
-		down2 = setup("/player/player_down_2", gp.tileSize, gp.tileSize * 2);
-		down3 = setup("/player/player_down_3", gp.tileSize, gp.tileSize * 2);
-		left1 = setup("/player/player_left_1", gp.tileSize, gp.tileSize * 2);
-		left2 = setup("/player/player_left_2", gp.tileSize, gp.tileSize * 2);
-		left3 = setup("/player/player_left_3", gp.tileSize, gp.tileSize * 2);
-		right1 = setup("/player/player_right_1", gp.tileSize, gp.tileSize * 2);
-		right2 = setup("/player/player_right_2", gp.tileSize, gp.tileSize * 2);
-		right3 = setup("/player/player_right_3", gp.tileSize, gp.tileSize * 2);
+		up1 = setup("/player/boy_up_1", gp.tileSize, gp.tileSize);
+		up2 = setup("/player/boy_up_2", gp.tileSize, gp.tileSize);
+		down1 = setup("/player/boy_down_1", gp.tileSize, gp.tileSize);
+		down2 = setup("/player/boy_down_2", gp.tileSize, gp.tileSize);
+		left1 = setup("/player/boy_left_1", gp.tileSize, gp.tileSize);
+		left2 = setup("/player/boy_left_2", gp.tileSize, gp.tileSize);
+		right1 = setup("/player/boy_right_1", gp.tileSize, gp.tileSize);
+		right2 = setup("/player/boy_right_2", gp.tileSize, gp.tileSize);
+		
 	}
 
 	public void getPlayerAttackImage() {
@@ -180,7 +177,7 @@ public class Player extends Entity {
 				spriteCouter++;
 				if (spriteCouter > 12) {
 					spriteNum++;
-					if (spriteNum > 3) {
+					if (spriteNum > 2) {
 						spriteNum = 1;
 					}
 					spriteCouter = 0;
@@ -348,6 +345,11 @@ public class Player extends Entity {
 
 				life -= damage;
 				invincible = true;
+				if(life <= 0) {
+					gp.gameState = gp.gameOverState;
+					gp.stopMusic();
+					gp.playSE(11);
+				} 
 			}
 		}
 	}

@@ -421,19 +421,20 @@ public class Entity {
 				worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
 				worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
 
+					//!CASO AUMENTAR O NUMERO DE SPRITES, AQUI TEM QUE MUDAR
 			switch (direction) {
 
 				case "up":
 					if (attacking == false) {
 						if (spriteNum == 1) {image = up1;}
 						if (spriteNum == 2) {image = up2;}
-						if (spriteNum == 3) {image = up3;}			
+								
 					}
 					if (attacking == true) {
 						tempScreenY = screenY - gp.tileSize;
 						if (spriteNum == 1) {image = attackUp1;}
 						if (spriteNum == 2) {image = attackUp2;}
-						if (spriteNum == 3) {image = attackUp3;}
+						
 					}
 					break;
 
@@ -441,12 +442,12 @@ public class Entity {
 					if (attacking == false) {
 						if (spriteNum == 1) {image = down1;}
 						if (spriteNum == 2) {image = down2;}
-						if (spriteNum == 3) {image = down3;}
+					
 					}
 					if (attacking == true) {
 						if (spriteNum == 1) {image = attackDown1;}
 						if (spriteNum == 2) {image = attackDown2;}
-						if (spriteNum == 3) {image = attackDown3;}
+						
 					}
 					break;
 
@@ -454,13 +455,13 @@ public class Entity {
 					if (attacking == false) {
 						if (spriteNum == 1) {image = left1;}
 						if (spriteNum == 2) {image = left2;}
-						if (spriteNum == 3) {image = left3;}
+						
 					}
 					if (attacking == true) {
 						tempScreenX = screenX - gp.tileSize;
 						if (spriteNum == 1) {image = attackLeft1;}
 						if (spriteNum == 2) {image = attackLeft2;}
-						if (spriteNum == 3) {image = attackLeft3;}
+						
 					}
 					break;
 
@@ -468,12 +469,12 @@ public class Entity {
 					if (attacking == false) {
 						if (spriteNum == 1) {image = right1;}
 						if (spriteNum == 2) {image = right2;}
-						if (spriteNum == 3) {image = right3;}
+						
 					}
 					if (attacking == true) {
 						if (spriteNum == 1) {image = attackRight1;}
 						if (spriteNum == 2) {image = attackRight2;}
-						if (spriteNum == 3) {image = attackRight3;}
+						
 					}
 					break;
 			}

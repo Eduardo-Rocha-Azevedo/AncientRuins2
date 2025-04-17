@@ -4,7 +4,7 @@ import javax.swing.JPanel;
 
 import ai.PathFinder;
 import entity.Entity;
-import entity.GravityExplosion;
+import entity.AreaExplosion;
 import entity.Player;
 import tile.TileManeger;
 import tile_interactive.InteractiveTile;
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Entity projectile[][] = new Entity[maxMap][80];
 	public ArrayList<Entity> projectileList = new ArrayList<>();
 	public ArrayList<Entity> particleList = new ArrayList<>();
-	public ArrayList<GravityExplosion> explosions = new ArrayList<>();
+	public ArrayList<AreaExplosion> explosions = new ArrayList<>();
 	ArrayList<Entity> entityList = new ArrayList<>();
 
 	// Game State
@@ -272,7 +272,7 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			 // Desenha todas as explosões
-			 for (GravityExplosion explosion : explosions) {
+			 for (AreaExplosion explosion : explosions) {
 				explosion.draw(g2);
 			}
 		

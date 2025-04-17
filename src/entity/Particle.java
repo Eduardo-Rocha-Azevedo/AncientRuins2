@@ -9,8 +9,9 @@ public class Particle extends Entity{
     Entity generator;
     Color color;
     public int size;
-    int xd;
-    int yd;
+    protected int xd;
+    protected int yd;
+    protected int alpha; // Transparência da partícula
     float opacity = 1.0f; // Para efeito de fade (transparência)
 
     public Particle(GamePanel gp, Entity generator, Color color, int size, int speed ,int maxLife, int xd, int yd){
