@@ -272,11 +272,9 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 			}
 			 // Desenha todas as explosões
-			 for (AreaExplosion explosion : explosions) {
-				explosion.draw(g2);
-			}
-		
-
+			 for (AreaExplosion explosion : explosions) {explosion.draw(g2);}
+				
+			
 			//sort
 			Collections.sort(entityList, Comparator.comparingInt((Entity e) -> e.worldY)
                                        .thenComparingInt(e -> e.worldX));

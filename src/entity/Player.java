@@ -133,63 +133,63 @@ public class Player extends Entity {
 		// Verifica se está atacando
 		if (attacking) {
 			attacking();
-		} else {
-			// Atualiza a direção do movimento conforme pressionamento das teclas
-			boolean moving = false;
+		}
+		else if (keyH.up == true || keyH.down == true ||
+				keyH.left == true || keyH.right == true || keyH.enterPressed == true) {
 
-			if (keyH.up || keyH.down || keyH.left || keyH.right) {
-				moving = true;
-				// Define a direção do movimento
-				if (keyH.up)
-					direction = "up";
-				else if (keyH.down)
-					direction = "down";
-				else if (keyH.left)
-					direction = "left";
-				else if (keyH.right)
-					direction = "right";
 
-				// Checa as colisões
-				collisioOn = false;
-				gp.cChecker.checkTile(this);
-				int objIndex = gp.cChecker.checkObject(this, true);
-				pickUpObject(objIndex);
-				int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
-				interactNPC(npcIndex);
-				int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-				contactMonster(monsterIndex);
-				int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
-				gp.eHandler.checkEvent();
+			if (keyH.up == true) {direction = "up";} 
+			else if (keyH.down == true) {direction = "down";}	
+			else if (keyH.left == true) {direction = "left";}	
+			else if (keyH.right == true) {direction = "right";}
 
-				// Se não houver colisão, o jogador pode se mover
-				if (!collisioOn) {
-					switch (direction) {
-						case "up":worldY -= speed;break;
-						case "down":worldY += speed;break;
-						case "left":worldX -= speed;break;
-						case "right":worldX += speed;break;
-					}
+			// CHECK TILE COLLISION
+			collisioOn = false;
+			gp.cChecker.checkTile(this);
+
+			// CHECK OBJECT COLLISION
+			int objIndex = gp.cChecker.checkObject(this, true);
+			pickUpObject(objIndex);
+
+			// CHECK NPC COLLISION
+			int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+			interactNPC(npcIndex);
+
+			// CHECK MONSTER COLLISION
+			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
+			contactMonster(monsterIndex);
+
+			// CHECK INTERACTIVE TILE COLLISION
+			int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+			
+			// CHECK EVENT
+			gp.eHandler.checkEvent();
+
+			//IF COLLISION IS FALSE, PLAYER CAN MOVE
+			if(collisioOn == false && keyH.enterPressed == false){
+				switch(direction){
+					case "up"   : worldY -= speed; break;
+					case "down" : worldY += speed; break;
+					case "left" : worldX -= speed; break;
+					case "right": worldX += speed; break;
 				}
+			
 			}
-
-			// Atualiza a animação do movimento
-			if (moving) {
-				spriteCouter++;
-				if (spriteCouter > 12) {
-					spriteNum++;
-					if (spriteNum > 2) {
-						spriteNum = 1;
-					}
-					spriteCouter = 0;
-				}
-			} else {
-				spriteNum = 1;
-			}
-
-			// Quando o jogador pressiona a tecla de ataque
-			if (keyH.enterPressed && !attackCanceled) {
+			if (keyH.enterPressed == true && attackCanceled == false) {
 				gp.playSE(7);
 				attacking = true;
+				spriteCouter = 0;
+			}
+
+			gp.keyH.enterPressed = false;
+			spriteCouter++;
+
+			if (spriteCouter > 12) {
+				if (spriteNum == 1) {
+					spriteNum = 2;
+				} else if (spriteNum == 2) {
+					spriteNum = 1;
+				}
 				spriteCouter = 0;
 			}
 

@@ -363,30 +363,19 @@ public class UI {
 		final int lineHeight = 35;
 
 		// NAME
-		g2.drawString("Level: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Life: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Cosmo: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Strength: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Dexterity: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Attack: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Defense: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Exp: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Next Level: ", textX, textY);
-		textY += lineHeight;
-		g2.drawString("Coin: ", textX, textY);
-		textY += lineHeight + 10;
-		g2.drawString("Weapon: ", textX, textY);
-		textY += lineHeight + 15;
-		g2.drawString("Shield: ", textX, textY);
-		textY += lineHeight;
+		g2.drawString("Level: ", textX, textY);textY += lineHeight;
+		g2.drawString("Life: ", textX, textY);textY += lineHeight;
+		g2.drawString("Cosmo: ", textX, textY);textY += lineHeight;
+		g2.drawString("Strength: ", textX, textY);textY += lineHeight;
+		g2.drawString("Dexterity: ", textX, textY);textY += lineHeight;
+		g2.drawString("Attack: ", textX, textY);textY += lineHeight;
+		g2.drawString("Defense: ", textX, textY);textY += lineHeight;
+		g2.drawString("Exp: ", textX, textY);textY += lineHeight;
+		g2.drawString("Next Level: ", textX, textY);textY += lineHeight;
+		g2.drawString("Coin: ", textX, textY);textY += lineHeight + 10;
+		g2.drawString("Weapon: ", textX, textY);textY += lineHeight + 15;
+		g2.drawString("Shield: ", textX, textY);textY += lineHeight;
+		
 
 		// VALUES
 		int tailX = (frameX + frameWidth) - 30;
@@ -573,18 +562,10 @@ public class UI {
 		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
 		switch (subState) {
-			case 0:
-				options_top(frameX, frameY);
-				break;
-			case 1:
-				options_fullScreen(frameX, frameY);
-				break;
-			case 2:
-				options_control(frameX, frameY);
-				break;
-			case 3:
-				options_endGame(frameX, frameY);
-				break;
+			case 0:options_top(frameX, frameY);break;
+			case 1:options_fullScreen(frameX, frameY);break;
+			case 2:options_control(frameX, frameY);break;
+			case 3:options_endGame(frameX, frameY);break;	
 		}
 		gp.keyH.enterPressed = false;
 	}
@@ -611,7 +592,6 @@ public class UI {
 					gp.setFullScreen();
 				} else if (gp.fullScreenOn == true) {
 					gp.fullScreenOn = false;
-
 				}
 				subState = 1;
 			}
@@ -621,17 +601,13 @@ public class UI {
 		// Music
 		textY += gp.tileSize;
 		g2.drawString("Music", textX, textY);
-		if (commandNum == 1) {
-			g2.drawString(">", textX - 25, textY);
-		}
-
+		if (commandNum == 1) {g2.drawString(">", textX - 25, textY);}
+			
 		// SE
 		textY += gp.tileSize;
 		g2.drawString("Sound Effect", textX, textY);
-		if (commandNum == 2) {
-			g2.drawString(">", textX - 25, textY);
-		}
-
+		if (commandNum == 2) {g2.drawString(">", textX - 25, textY);}
+			
 		// Controls
 		textY += gp.tileSize;
 		g2.drawString("Controls", textX, textY);
@@ -720,38 +696,32 @@ public class UI {
 		textY = frameY + gp.tileSize;
 		g2.drawString(text, textX, textY);
 
-		textX = frameX + gp.tileSize;
-		textY += gp.tileSize;
-		g2.drawString("Move", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("Confirm/Attack", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("Shoot/Cast", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("Character status", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("Pause", textX, textY);
-		textY += gp.tileSize;
+		textX = frameX + gp.tileSize;textY += gp.tileSize;
+		
+		g2.drawString("Move", textX, textY);textY += gp.tileSize;
+		
+		g2.drawString("Confirm/Attack", textX, textY);textY += gp.tileSize;
+		
+		g2.drawString("Shoot/Cast", textX, textY);textY += gp.tileSize;
+		
+		g2.drawString("Character status", textX, textY);textY += gp.tileSize;
+		
+		g2.drawString("Pause", textX, textY);textY += gp.tileSize;
+		
 		g2.drawString("Options", textX, textY);
-		textY += gp.tileSize;
+		
 
 		textX = frameX + gp.tileSize * 6;
 		textY = frameY + gp.tileSize * 2;
-		g2.drawString("WASD", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("Enter", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("F", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("E", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("P", textX, textY);
-		textY += gp.tileSize;
-		g2.drawString("ESC", textX, textY);
-		textY += gp.tileSize;
-
+		g2.drawString("WASD", textX, textY);textY += gp.tileSize;
+		g2.drawString("Enter", textX, textY);textY += gp.tileSize;
+		g2.drawString("F", textX, textY);textY += gp.tileSize;
+		g2.drawString("E", textX, textY);textY += gp.tileSize;
+		g2.drawString("P", textX, textY);textY += gp.tileSize;
+		g2.drawString("ESC", textX, textY);textY += gp.tileSize;
+		
 		// BACK
-		textX = frameX + gp.tileSize;
+		textX = frameX + gp.tileSize;textY += gp.tileSize;
 		textY = frameY + gp.tileSize * 9;
 		g2.drawString("Back", textX, textY);
 		if (commandNum == 0) {
@@ -774,7 +744,7 @@ public class UI {
 		}
 
 		// YES
-		String text = "Sim";
+		String text = "Yes";
 		textX = getXForCenterText(text);
 		textY += gp.tileSize * 3;
 		g2.drawString(text, textX, textY);
@@ -790,7 +760,7 @@ public class UI {
 		}
 
 		// NO
-		text = "Não";
+		text = "No";
 		textX = getXForCenterText(text);
 		textY += gp.tileSize;
 		g2.drawString(text, textX, textY);
@@ -822,15 +792,9 @@ public class UI {
 
 	public void drawTradeScreen() {
 		switch (subState) {
-			case 0:
-				trade_select();
-				break;
-			case 1:
-				trade_buy();
-				break;
-			case 2:
-				trade_sell();
-				break;
+			case 0:trade_select();break;
+			case 1:trade_buy();break;
+			case 2:trade_sell();break;			
 		}
 		gp.keyH.enterPressed = false;
 	}
@@ -848,21 +812,17 @@ public class UI {
 		// Draw text
 		x += gp.tileSize;
 		y += gp.tileSize;
-		g2.drawString("Buy", x, y);
-		if (commandNum == 0) {
-			g2.drawString(">", x - gp.tileSize / 2, y);
-		}
-		y += gp.tileSize;
-		g2.drawString("Sell", x, y);
-		if (commandNum == 1) {
-			g2.drawString(">", x - gp.tileSize / 2, y);
-		}
-		y += gp.tileSize;
-		g2.drawString("Back", x, y);
-		if (commandNum == 2) {
-			g2.drawString(">", x - gp.tileSize / 2, y);
-		}
 
+		g2.drawString("Buy", x, y);
+		if (commandNum == 0) {g2.drawString(">", x - gp.tileSize / 2, y);} 
+		y += gp.tileSize;
+
+		g2.drawString("Sell", x, y);
+		if (commandNum == 1) {g2.drawString(">", x - gp.tileSize / 2, y);}	 
+		y += gp.tileSize;
+		
+		g2.drawString("Back", x, y);
+		if (commandNum == 2) {g2.drawString(">", x - gp.tileSize / 2, y);}
 	}
 
 	public void trade_buy() {
