@@ -13,7 +13,7 @@ public class MON_GreenSlime extends Entity {
     public MON_GreenSlime(GamePanel gp) {
         super(gp);
         type = type_monster;
-        name = "Slime Vermelho";
+        name = "Slime Green";
         defaultSpeed = 1;
         speed = defaultSpeed;
         maxLife = 7;

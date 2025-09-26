@@ -10,6 +10,9 @@ import objects.OBJ_Coin_Broze;
 import objects.OBJ_Key;
 import objects.OBJ_Potion_Red;
 import objects.OBJ_Shield_Blue;
+import tile_interactive.IT_BigTree;
+import tile_interactive.IT_Blueberry;
+import tile_interactive.IT_Bush;
 import tile_interactive.IT_DryTree;
 
 public class AssetSetter {
@@ -101,7 +104,16 @@ public class AssetSetter {
 		gp.iTile[mapNum][i] = new IT_DryTree(gp, 28,12);i++;
 		gp.iTile[mapNum][i] = new IT_DryTree(gp, 29,12);i++;
 		gp.iTile[mapNum][i] = new IT_DryTree(gp, 30,12);i++;
-		gp.iTile[mapNum][i] = new IT_DryTree(gp, 31,12);i++;
+		gp.iTile[mapNum][i] = new IT_BigTree(gp, 25,21);i++;
+		gp.iTile[mapNum][i] = new IT_BigTree(gp, 10,27);i++;
+		gp.iTile[mapNum][i] = new IT_BigTree(gp, 25,28);i++;
+		gp.iTile[mapNum][i] = new IT_BigTree(gp, 27,27);i++;
+		gp.iTile[mapNum][i] = new IT_BigTree(gp, 31,27);i++;
+		gp.iTile[mapNum][i] = new IT_BigTree(gp, 17,20);i++;
+		gp.iTile[mapNum][i] = new IT_Bush(gp, 20,26);i++;
+		gp.iTile[mapNum][i] = new IT_Bush(gp, 32,24);i++;
+		gp.iTile[mapNum][i] = new IT_Bush(gp, 30,40);i++;
+		gp.iTile[mapNum][i] = new IT_Blueberry(gp, 34,42);i++;
 	
 	}
 }

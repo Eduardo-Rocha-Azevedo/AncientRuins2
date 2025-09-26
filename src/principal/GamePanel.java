@@ -211,107 +211,111 @@ public class GamePanel extends JPanel implements Runnable {
 			// nothing yet
 		}
 	}
-	public void drawToTempScreen(){
-		//debug
-		long drawStart = 0;
-	  
-		if(keyH.showDebugText == true){
-			 drawStart = System.nanoTime(); 
-		}
+public void drawToTempScreen() {
+    long drawStart = 0;
 
-		//TITLE SCREEN
-		if(gameState == titleState){
-			ui.draw(g2);
-		}   
+    if (keyH.showDebugText) {
+        drawStart = System.nanoTime();
+    }
 
-		//OTHERS
-		else{
-			//TILE
-			tileM.draw(g2);
-			
-			//INTERACTIVE TILE
-			for(int i = 0; i < iTile[1].length; i++){
-				if(iTile[currentMap][i] != null){
-					iTile[currentMap][i].draw(g2);
-				}
-			}   
+    // TITLE SCREEN
+    if (gameState == titleState) {
+        ui.draw(g2);
+    } else {
+        // DRAW TILES
+        tileM.draw(g2);
 
-			// Add entities to the list
-			entityList.add(player);
+        // DRAW INTERACTIVE TILES
+        for (int i = 0; i < iTile[1].length; i++) {
+            if (iTile[currentMap][i] != null) {
+                iTile[currentMap][i].draw(g2);
 
-			//npc
-			for(int i = 0; i < npc[1].length; i++){
-				if(npc[currentMap][i] != null){
-					entityList.add(npc[currentMap][i]);
-				}
-			}
-			//obj
-			for(int i = 0; i < obj[1].length; i++){
-				if(obj[currentMap][i] != null){
-					entityList.add(obj[currentMap][i]);
-				}
-			}
-			//monster
-			for(int i = 0; i < monster[1].length; i++){
-				if(monster[currentMap][i] != null){
-					entityList.add(monster[currentMap][i]);
-				}
-			}
+                // DEBUG HITBOX TILE INTERATIVO
+                if (keyH.showDebugText) {
+                    g2.setColor(new Color(255, 0, 0, 100));
+                    g2.fillRect(
+                        iTile[currentMap][i].worldX + iTile[currentMap][i].solidArea.x,
+                        iTile[currentMap][i].worldY + iTile[currentMap][i].solidArea.y,
+                        iTile[currentMap][i].solidArea.width,
+                        iTile[currentMap][i].solidArea.height
+                    );
+                }
+            }
+        }
 
-			//projectile
-			for(int i = 0; i < projectile[1].length; i++){
-				if(projectile[currentMap][i] != null){
-					entityList.add(projectile[currentMap][i]);
-				}
-			}
+        // ADD ENTITIES TO LIST
+        entityList.add(player);
 
-			//particle
-			for(int i = 0; i < particleList.size(); i++){
-				if(particleList.get(i) != null){
-					entityList.add(particleList.get(i));
-				}
-			}
-			 // Desenha todas as explosões
-			 for (AreaExplosion explosion : explosions) {explosion.draw(g2);}
-				
-			
-			//sort
-			Collections.sort(entityList, Comparator.comparingInt((Entity e) -> e.worldY)
-                                       .thenComparingInt(e -> e.worldX));
+        for (int i = 0; i < npc[1].length; i++) {
+            if (npc[currentMap][i] != null) entityList.add(npc[currentMap][i]);
+        }
 
+        for (int i = 0; i < obj[1].length; i++) {
+            if (obj[currentMap][i] != null) entityList.add(obj[currentMap][i]);
+        }
 
-			//draw entities
-			for(int i = 0; i < entityList.size(); i++){
-				entityList.get(i).draw(g2);
-			}
+        for (int i = 0; i < monster[1].length; i++) {
+            if (monster[currentMap][i] != null) entityList.add(monster[currentMap][i]);
+        }
 
-			//empty list
-			entityList.clear();
-			//UI
-			ui.draw(g2);
-		}
-	   
+        for (int i = 0; i < projectile[1].length; i++) {
+            if (projectile[currentMap][i] != null) entityList.add(projectile[currentMap][i]);
+        }
 
-		//debug
-		if(keyH.showDebugText == true){
-			long drawEnd = System.nanoTime();
-			long passed  = drawEnd - drawStart;
+        for (int i = 0; i < particleList.size(); i++) {
+            if (particleList.get(i) != null) entityList.add(particleList.get(i));
+        }
 
-			g2.setFont(new Font("arial", Font.PLAIN, 15));
-			g2.setColor(Color.WHITE);
+        // DRAW EXPLOSIONS
+        for (AreaExplosion explosion : explosions) {
+            explosion.draw(g2);
+        }
 
-			int x = 10;
-			int y = 400;
-			int lineHeight = 20;
+        // SORT ENTITIES BY WORLD Y FOR CORRECT OVERLAP
+        Collections.sort(entityList, Comparator.comparingInt(e -> e.worldY + e.solidArea.y));
 
-			g2.drawString("WorldX: "+ player.worldX, x, y); y += lineHeight;
-			g2.drawString("WorldY: " + player.worldY , x, y); y += lineHeight;
-			g2.drawString("Col: "+ (player.worldX + player.solidArea.x)/tileSize, x, y); y += lineHeight;
-			g2.drawString("Row: " + (player.worldY + player.solidArea.y)/tileSize, x, y); y += lineHeight;
-			g2.drawString("Draw Time: " + passed, x, y);
-		   
-	   }
-   }
+        // DRAW ENTITIES
+        for (Entity e : entityList) {
+            e.draw(g2);
+
+            // DEBUG HITBOX ENTIDADES
+            if (keyH.showDebugText) {
+                g2.setColor(new Color(255, 0, 0)); // vermelho semitransparente
+                g2.fillRect(
+                    e.worldX + e.solidArea.x,
+                    e.worldY + e.solidArea.y,
+                    e.solidArea.width,
+                    e.solidArea.height
+                );
+            }
+        }
+
+        // CLEAR ENTITY LIST AFTER DRAW
+        entityList.clear();
+
+        // DRAW UI
+        ui.draw(g2);
+    }
+
+    // DEBUG INFO
+    if (keyH.showDebugText) {
+        long drawEnd = System.nanoTime();
+        long passed = drawEnd - drawStart;
+
+        g2.setFont(new Font("Arial", Font.PLAIN, 15));
+        g2.setColor(Color.WHITE);
+
+        int x = 10;
+        int y = 400;
+        int lineHeight = 20;
+
+        g2.drawString("WorldX: " + player.worldX, x, y); y += lineHeight;
+        g2.drawString("WorldY: " + player.worldY, x, y); y += lineHeight;
+        g2.drawString("Col: " + (player.worldX + player.solidArea.x) / tileSize, x, y); y += lineHeight;
+        g2.drawString("Row: " + (player.worldY + player.solidArea.y) / tileSize, x, y); y += lineHeight;
+        g2.drawString("Draw Time: " + passed, x, y);
+    }
+}
 
 	public void drawToScreen() {
 		Graphics g = getGraphics();
