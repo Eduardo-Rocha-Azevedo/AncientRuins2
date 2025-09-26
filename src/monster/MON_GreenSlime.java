@@ -13,7 +13,7 @@ public class MON_GreenSlime extends Entity {
     public MON_GreenSlime(GamePanel gp) {
         super(gp);
         type = type_monster;
-        name = "Slime Vermelho";
+        name = "Slime Green";
         defaultSpeed = 1;
         speed = defaultSpeed;
         maxLife = 7;
@@ -44,36 +44,30 @@ public class MON_GreenSlime extends Entity {
         right2 = setup("/monster/greenslime_down_2", gp.tileSize, gp.tileSize);
     }
 
-    // IA A* PathFinder
-    public void setAction() {
-        if (onPath == true) {
-            int goalCol = (gp.player.worldX + gp.player.solidArea.x) / gp.tileSize;
-            int goalRow = (gp.player.worldY + gp.player.solidArea.y) / gp.tileSize;
-            searchPath(goalCol, goalRow);
-            int i = new Random().nextInt(100) + 1;
-            if(i > 197 && projectile.alive == false && shotAvailabelCounter == 30){
-               projectile.set(worldX,worldY,direction,true,this); 
-               gp.projectileList.add(projectile);
-               
-               //CHECK VACANCY
-               for(int ii = 0; ii < gp.projectile[1].length; ii++){
-                    if(gp.projectile[gp.currentMap][ii] == null){
-                        gp.projectile[gp.currentMap][ii] = projectile;
-                        break;
-                    }
-               }
-               shotAvailabelCounter = 0;
-            }
+   //IA A* PathFinder
+    public void setAction(){
+        
+        if(onPath == true){
+            //Check if it stops chasing
+            checkStopChassingOrNot(gp.player, 10, 100);
+           
+            //Search the direction to go 
+			searchPath(getGoalCol(gp.player), getGoalRow(gp.player));
 
-        } else {
-            getRandomDirection(120);
-            
+            // Check if it shoots a projectile
+           // checkShootOrNot(200, 30);  
         }
+        else{
+            checkStartChasingOrNOt(gp.player, 5, 100);
+            // Get a random direction
+            getRandomDirection(120);
+        } 
+        
     }
 
     public void damageReaction() {
         actionLockCounter = 0;
-        // direction = gp.player.direction;
+        direction = gp.player.direction;
         onPath = true;
     }
 
