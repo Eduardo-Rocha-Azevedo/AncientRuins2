@@ -29,7 +29,7 @@ public class TileManeger {
 	}
 
 	public void getTileImage() {
-		setup(0, "000", true);
+		setup(0, "000", false);
 		setup(1, "001", false);
 		setup(2, "002", false);
 		setup(3, "003", false);

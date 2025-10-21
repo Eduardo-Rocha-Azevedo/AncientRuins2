@@ -2,7 +2,7 @@ package principal;
 
 import entity.NPC_Farmer;
 import entity.NPC_Merchant;
-import entity.NPC_OldMan;
+import entity.NPC_Old_man;
 import monster.MON_GreenSlime;
 import objects.OBJ_Axe;
 import objects.OBJ_Chest;
@@ -49,7 +49,7 @@ public class AssetSetter {
 	public void setNPC() {
 		int i = 0;
 		int mapNum = 0;
-		gp.npc[mapNum][i] = new NPC_OldMan(gp);
+		gp.npc[mapNum][i] = new NPC_Old_man(gp);
 		gp.npc[mapNum][i].worldX = gp.tileSize * 21;
 		gp.npc[mapNum][i].worldY = gp.tileSize * 21;
 		i++;

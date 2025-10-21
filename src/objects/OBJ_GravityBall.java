@@ -25,7 +25,7 @@ public class OBJ_GravityBall extends Projectile{
         attack = 5;
         useCost = 1;
         alive = false;
-        knockBackPower = 1;
+        //knockBackPower = 1;
         
         getImage();
     }

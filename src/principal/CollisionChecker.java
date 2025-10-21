@@ -1,6 +1,8 @@
 package principal;
 
 import entity.Entity;
+import tile_interactive.InteractiveTile;
+
 import java.awt.Rectangle;
 
 public class CollisionChecker {
@@ -73,22 +75,28 @@ public class CollisionChecker {
                         entity.worldX + entity.solidArea.x,
                         entity.worldY + entity.solidArea.y,
                         entity.solidArea.width,
-                        entity.solidArea.height
-                );
+                        entity.solidArea.height);
 
                 Rectangle objRect = new Rectangle(
                         gp.obj[gp.currentMap][i].worldX + gp.obj[gp.currentMap][i].solidArea.x,
                         gp.obj[gp.currentMap][i].worldY + gp.obj[gp.currentMap][i].solidArea.y,
                         gp.obj[gp.currentMap][i].solidArea.width,
-                        gp.obj[gp.currentMap][i].solidArea.height
-                );
+                        gp.obj[gp.currentMap][i].solidArea.height);
 
                 // desloca entity conforme direção e velocidade
                 switch (entity.direction) {
-                    case "up": entityRect.y -= entity.speed; break;
-                    case "down": entityRect.y += entity.speed; break;
-                    case "left": entityRect.x -= entity.speed; break;
-                    case "right": entityRect.x += entity.speed; break;
+                    case "up":
+                        entityRect.y -= entity.speed;
+                        break;
+                    case "down":
+                        entityRect.y += entity.speed;
+                        break;
+                    case "left":
+                        entityRect.x -= entity.speed;
+                        break;
+                    case "right":
+                        entityRect.x += entity.speed;
+                        break;
                 }
 
                 // verifica colisão
@@ -117,21 +125,27 @@ public class CollisionChecker {
                         entity.worldX + entity.solidArea.x,
                         entity.worldY + entity.solidArea.y,
                         entity.solidArea.width,
-                        entity.solidArea.height
-                );
+                        entity.solidArea.height);
 
                 Rectangle targetRect = new Rectangle(
                         target[gp.currentMap][i].worldX + target[gp.currentMap][i].solidArea.x,
                         target[gp.currentMap][i].worldY + target[gp.currentMap][i].solidArea.y,
                         target[gp.currentMap][i].solidArea.width,
-                        target[gp.currentMap][i].solidArea.height
-                );
+                        target[gp.currentMap][i].solidArea.height);
 
                 switch (entity.direction) {
-                    case "up": entityRect.y -= entity.speed; break;
-                    case "down": entityRect.y += entity.speed; break;
-                    case "left": entityRect.x -= entity.speed; break;
-                    case "right": entityRect.x += entity.speed; break;
+                    case "up":
+                        entityRect.y -= entity.speed;
+                        break;
+                    case "down":
+                        entityRect.y += entity.speed;
+                        break;
+                    case "left":
+                        entityRect.x -= entity.speed;
+                        break;
+                    case "right":
+                        entityRect.x += entity.speed;
+                        break;
                 }
 
                 if (entityRect.intersects(targetRect)) {
@@ -152,21 +166,27 @@ public class CollisionChecker {
                 entity.worldX + entity.solidArea.x,
                 entity.worldY + entity.solidArea.y,
                 entity.solidArea.width,
-                entity.solidArea.height
-        );
+                entity.solidArea.height);
 
         Rectangle playerRect = new Rectangle(
                 gp.player.worldX + gp.player.solidArea.x,
                 gp.player.worldY + gp.player.solidArea.y,
                 gp.player.solidArea.width,
-                gp.player.solidArea.height
-        );
+                gp.player.solidArea.height);
 
         switch (entity.direction) {
-            case "up": entityRect.y -= entity.speed; break;
-            case "down": entityRect.y += entity.speed; break;
-            case "left": entityRect.x -= entity.speed; break;
-            case "right": entityRect.x += entity.speed; break;
+            case "up":
+                entityRect.y -= entity.speed;
+                break;
+            case "down":
+                entityRect.y += entity.speed;
+                break;
+            case "left":
+                entityRect.x -= entity.speed;
+                break;
+            case "right":
+                entityRect.x += entity.speed;
+                break;
         }
 
         if (entityRect.intersects(playerRect)) {
@@ -176,4 +196,27 @@ public class CollisionChecker {
 
         return contactPlayer;
     }
+
+  /*   public boolean checkItHitBox(Entity entity, InteractiveTile[][] iTile) {
+        // Hitbox da entidade
+        int entityLeft = entity.worldX + entity.solidArea.x;
+        int entityTop = entity.worldY + entity.solidArea.y;
+        int entityRight = entityLeft + entity.solidArea.width;
+        int entityBottom = entityTop + entity.solidArea.height;
+
+        // Hitbox da copa do tile
+        Rectangle crownArea = iTile[gp.currentMap][0].crownArea; // Replace with correct index or logic
+        int crownLeft = iTile[gp.currentMap][0].worldX + crownArea.x;
+        int crownTop = iTile[gp.currentMap][0].worldY + crownArea.y;
+        int crownRight = crownLeft + crownArea.width;
+        int crownBottom = crownTop + crownArea.height;
+
+        // Verifica colisão
+        boolean collision = entityRight > crownLeft &&
+                entityLeft < crownRight &&
+                entityBottom > crownTop &&
+                entityTop < crownBottom;
+
+        return collision;
+    }*/
 }

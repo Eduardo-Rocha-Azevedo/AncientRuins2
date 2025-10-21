@@ -18,12 +18,12 @@ public class Projectile  extends Entity{
         this.life = maxLife;
 
     }
-    //? Se Nao esta se movendo colocar o speed na SUBCLASSE :)
+
     public void update(){
         if(user == gp.player){
             int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
             if(monsterIndex != 999){
-                gp.player.damageMonster(monsterIndex,attack, knockBackPower);
+                gp.player.damageMonster(monsterIndex,attack);
                 generateParticle(user.projectile, gp.monster[gp.currentMap][monsterIndex]);
                 alive = false;
 
@@ -37,6 +37,7 @@ public class Projectile  extends Entity{
                 alive = false;
             }
         }
+
         switch(direction){
             case "up": worldY -= speed; break;
             case "down": worldY += speed; break; 
@@ -59,12 +60,12 @@ public class Projectile  extends Entity{
             spriteCouter = 0;
         }
     }
-    public boolean haveResources(Entity user){
-        boolean haveResources = false;
-        return haveResources;
+
+    public boolean haveResource(Entity user){
+        boolean haveResource = false;
+        return haveResource;
     }
 
-    public void subtractResource(Entity user){
-        
-    }
+    public void substracResource(Entity user){}
+
 }

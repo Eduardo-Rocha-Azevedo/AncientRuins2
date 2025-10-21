@@ -1,6 +1,7 @@
 package tile_interactive;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 import entity.Entity;
 import principal.GamePanel;
@@ -8,6 +9,9 @@ import principal.GamePanel;
 public class InteractiveTile extends Entity{
 
     public boolean destructible = false;
+    public Rectangle crownArea;
+    public int x, y, width, height;
+
     public InteractiveTile(GamePanel gp,int col, int row){
         super(gp);
        

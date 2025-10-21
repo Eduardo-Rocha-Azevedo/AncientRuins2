@@ -37,10 +37,10 @@ public class NPC_Farmer extends Entity{
 	}
 
 	public void setDialogue() {
-		dialogue[0] = "Hello, lad";
-		dialogue[1] = "I'm farmer";
-		dialogue[2] = "I'm the dialog test NPC";
-		dialogue[3] = "I'm the dialog test NPC";
+		dialogues[0] = "Hello, lad";
+		dialogues[1] = "I'm farmer";
+		dialogues[2] = "I'm the dialog test NPC";
+		dialogues[3] = "I'm the dialog test NPC";
 	}
 
 	public void speak() {

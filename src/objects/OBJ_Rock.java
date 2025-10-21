@@ -33,9 +33,9 @@ public class OBJ_Rock extends Projectile{
 
      public boolean haveResources(Entity user){
         boolean haveResources = false;
-        if(user.ammo >= useCost){
-            haveResources = true;
-        }
+        //if(user.ammo >= useCost){haveResources = true;}
+            
+        
         return haveResources;
     }
 
